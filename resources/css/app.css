@@ -1,0 +1,87 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+[x-cloak] { display: none !important; }
+
+.bg-alert-success {
+    @apply bg-green-400;
+}
+
+.bg-alert-error {
+    @apply bg-red-400;
+}
+
+.bg-alert-warning {
+    @apply bg-yellow-400;
+}
+
+.bg-alert-unknow {
+    @apply bg-gray-400;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+.swal-cancel-button {
+    @apply border;
+    @apply border-solid;
+    @apply border-red-600;
+    @apply text-red-600;
+    @apply bg-white;
+    @apply p-2;
+    @apply rounded-md;
+    @apply mr-8;
+}
+
+.swal-confirm-button {
+    @apply text-white;
+    @apply bg-blue-600;
+    @apply p-2;
+    @apply rounded-md;
+    @apply mr-4;
+}
+
+.swal-cancel-button:hover {
+    @apply border;
+    @apply border-solid;
+    @apply border-white;
+    @apply text-white;
+    @apply bg-red-600;
+    @apply p-2;
+    @apply rounded-md;
+    @apply mr-8;
+}
+
+.swal-confirm-button:hover {
+    @apply text-white;
+    @apply bg-blue-800;
+    @apply p-2;
+    @apply rounded-md;
+    @apply mr-4;
+}
+
+.bg-alert-success {
+    @apply bg-green-400;
+}
+
+.bg-alert-error {
+    @apply bg-red-400;
+}
+
+.bg-alert-warning {
+    @apply bg-yellow-400;
+}
+
+.bg-alert-unknow {
+    @apply bg-gray-400;
+}
