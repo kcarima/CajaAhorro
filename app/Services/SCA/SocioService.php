@@ -24,15 +24,16 @@ final readonly class SocioService
 
         $codigo_cargo = Cargo::where('nombre', 'like', $data['cargo'])->value('codigo');
         $codigo_departamento = Departamento::where('nombre', 'like', $data['departamento'])->value('codigo');
-        $sede = null;
         $zona = null;
 
         if(isset($data['sede'])){
-            $sede = DB::connection('uneg')->table('sedes')->where('uuid', $data['sede'])->value('id');
+            $sede = DB::connection('uneg')->table('sedes')->where('id', $data['sede'])->value('id');
+        }else{
+            $sede = null;
         }
 
         if(isset($data['zona'])){
-            $zona = DB::connection('uneg')->table('zonas')->where('uuid', $data['zona'])->value('id');
+            $zona = DB::connection('uneg')->table('zonas')->where('id', $data['zona'])->value('id');
         }
 
         $id_moneda = DB::connection('sca')->table('monedas')->where('es_default', true)->value('id');
@@ -43,6 +44,7 @@ final readonly class SocioService
             'nombre' => $data['nombres'],
             'ficha' => $data['ficha'],
             'cedula' => $cedula,
+            'fecha_nacimiento' => $data['fecha_nacimiento'],
             'fecha_ingreso_uneg' => $data['ingreso_uneg'],
             'fecha_retiro_uneg' => $data['retiro_uneg'] ?? null,
             'fecha_ingreso_cauneg' => $data['ingreso_cauneg'],
@@ -151,6 +153,7 @@ final readonly class SocioService
 
         $socio->fill([
             'cedula' => get_cedula(nacionalidad: $data['nacionalidad'], numero: $data['cedula']),
+            'fecha_nacimiento' => $data['fecha_nacimiento'],
             'fecha_ingreso_uneg' => $data['ingreso_uneg'],
             'fecha_retiro_uneg' => $data['retiro_uneg'],
             'fecha_ingreso_cauneg' => $data['ingreso_cauneg'],
@@ -166,6 +169,8 @@ final readonly class SocioService
             'nombre' => $data['nombres'],
             'ficha' => $data['ficha'],
             'fecha_fallecido' => $data['fecha_fallecido'] ?? null,
+            'sede_id' => $data['sede'],
+            'zona_id' => $data['zona'],
         ]);
 
         $socio->save();
@@ -256,6 +261,8 @@ final readonly class SocioService
             'tipo_trabajador_id' => $socio->tipo_trabajador_id,
             'sueldo' => $socio->sueldo,
             'moneda_id' => $socio->moneda_id,
+            'sede' => $socio->sede_id,
+            'zona' => $socio->zona_id,
         ];
     }
 }

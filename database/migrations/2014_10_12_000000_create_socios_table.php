@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string(column: 'nombre');
             $table->string(column: 'ficha')->unique();
             $table->string(column: 'cedula', length: 11)->unique();
-            $table->date(column: 'fecha_nac')->nullable();
+            $table->date(column: 'fecha_nacimiento')->nullable();
             $table->decimal(column: 'saldo_haberes', total: 16, places: 8)->default(value: 0.0);
             $table->decimal(column: 'saldo_bloqueado', total: 16, places: 8)->default(value: 0.0);
             $table->date(column: 'fecha_ingreso_uneg');
@@ -27,8 +27,8 @@ return new class extends Migration
             $table->string(column: 'codigo_departamento', length: 6)->nullable();
             $table->foreignId(column: 'relacion_laboral_id')->nullable()->references(column: 'id')->on(table: 'uneg.relaciones_laborales')->onUpdate(action: 'cascade')->onDelete(action: 'restrict');
             $table->foreignId(column: 'tipo_trabajador_id')->nullable()->references(column: 'id')->on(table: 'uneg.tipos_trabajadores')->onUpdate(action: 'cascade')->onDelete(action: 'restrict');
-            $table->foreignId(column: 'sede_id')->nullable()->references(column: 'id')->on('uneg.sedes')->onUpdate('cascade')->onDelete('restrict');
-            $table->foreignId(column: 'zona_id')->nullable()->references(column: 'id')->on('uneg.zonas')->onUpdate('cascade')->onDelete('restrict');
+            $table->foreignId(column: 'sede_id')->nullable()->references(column: 'id')->on('uneg.sedes')->onUpdate('cascade')->onDelete('restrict')->default(value: 1);
+            $table->foreignId(column: 'zona_id')->nullable()->references(column: 'id')->on('uneg.zonas')->onUpdate('cascade')->onDelete('restrict')->default(value: 1);
             $table->decimal(column: 'sueldo', total: 16, places: 8)->default(value: 0.0);
             $table->foreignId(column: 'moneda_id')->references(column: 'id')->on(table: 'sca.monedas')->onDelete(action: 'restrict')->onUpdate(action: 'cascade');
             $table->boolean(column: 'es_fiador')->default(value: false);

@@ -7,6 +7,8 @@ use App\Models\Seguridad\User;
 use App\Models\UNEG\Cargo;
 use App\Models\UNEG\Departamento;
 use App\Models\UNEG\RelacionLaboral;
+use App\Models\UNEG\Sede;
+use App\Models\UNEG\Zona;
 use App\Models\UNEG\TipoTrabajador;
 use App\Traits\DataCedula;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -42,12 +44,16 @@ final class Socio extends Model implements Reconvertible
         'codigo_departamento',
         'relacion_laboral_id',
         'tipo_trabajador_id',
+        'sede',
+        'zona',
         'sueldo',
         'moneda_id',
         'es_fiador',
         'telefono',
         'telefono_secundario',
+        'fecha_nacimiento',
         'fecha_fallecido',
+
     ];
 
     protected $with = [
@@ -55,10 +61,13 @@ final class Socio extends Model implements Reconvertible
         'departamento',
         'tipo_trabajador',
         'relacion_laboral',
+        'sede',
+        'zona',
         'moneda',
         'bancos',
         'beneficiarios',
         'historico_fichas',
+
     ];
 
     public function getActivitylogOptions(): LogOptions
@@ -68,7 +77,8 @@ final class Socio extends Model implements Reconvertible
             ->logOnly(
                 ['nombre', 'ficha', 'cedula', 'fecha_ingreso_uneg', 'fecha_retiro_uneg', 'saldo_haberes', 'saldo_bloqueado',
                     'fecha_ingreso_cauneg', 'fecha_retiro_cauneg', 'codigo_cargo', 'codigo_departamento', 'relacion_laboral_id',
-                    'tipo_trabajador_id', 'sueldo', 'moneda_id', 'es_fiador', 'telefono', 'telefono_secundario', 'fecha_fallecido'])
+                    'sede','tipo_trabajador_id','sede_id','zona_id', 'sueldo', 'moneda_id', 'es_fiador', 'telefono', 'telefono_secundario',
+                    'fecha_fallecido'])
             ->logOnlyDirty()
             ->dontLogIfAttributesChangedOnly(attributes: ['updated_at'])
             ->dontSubmitEmptyLogs()
@@ -115,6 +125,14 @@ final class Socio extends Model implements Reconvertible
         return $this->belongsTo(RelacionLaboral::class);
     }
 
+    public function sede()
+    {
+        return $this->belongsTo(Sede::class, 'sede_id', 'id');
+    }
+    public function zona()
+    {
+         return $this->belongsTo(Zona::class);
+    }
     public function moneda()
     {
         return $this->belongsTo(Moneda::class);

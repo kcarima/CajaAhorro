@@ -50,9 +50,9 @@ final class UsuariosController extends Controller
         $condiciones_laborales = RelacionLaboral::all(['id', 'nombre']);
         $bancos = Banco::all(['codigo', 'nombre', 'abreviatura']);
         $tipos_cuentas = TipoCuentaBancaria::public()->pluck('nombre');
-        $parentescos = Parentesco::all(['uuid', 'nombre']);
-        $zonas = Zona::all(['uuid', 'nombre']);
-        $sedes = Sede::all(['uuid', 'nombre']);
+        $parentescos = Parentesco::all(['id', 'nombre']);
+        $zonas = Zona::all(['id', 'nombre']);
+        $sedes = Sede::all(['id', 'nombre']);
 
         $roles = [];
 
@@ -144,9 +144,9 @@ final class UsuariosController extends Controller
         $condiciones_laborales = RelacionLaboral::all(['id', 'nombre']);
         $bancos = Banco::all(['codigo', 'nombre', 'abreviatura']);
         $tipos_cuentas = TipoCuentaBancaria::public()->pluck('nombre');
-        $sedes = Sede::all(['uuid', 'nombre']);
-        $zonas = Zona::all(['uuid', 'nombre']);
-        $parentescos = Parentesco::all(['uuid', 'nombre']);
+        $sedes = Sede::all(['id', 'nombre']);
+        $zonas = Zona::all(['id', 'nombre']);
+        $parentescos = Parentesco::all(['id', 'nombre']);
 
 
         $roles = [];
@@ -186,7 +186,8 @@ final class UsuariosController extends Controller
         $condiciones_laborales = RelacionLaboral::all(['id', 'nombre']);
         $bancos = Banco::all(['codigo', 'nombre', 'abreviatura']);
         $tipos_cuentas = TipoCuentaBancaria::public()->pluck('nombre');
-
+        $sedes = Sede::pluck(['id','nombre']);
+        $zonas = Zona::pluck(['id','nombre']);
         $roles = [];
 
         foreach (TipoUsuario::cases() as $rol) {
@@ -206,6 +207,8 @@ final class UsuariosController extends Controller
                 'bancos' => $bancos,
                 'tipos_cuentas' => $tipos_cuentas,
                 'roles' => $roles,
+                'sedes' => $sedes,
+                'zonas' => $zonas,
             ]
         );
     }
@@ -252,6 +255,7 @@ final class UsuariosController extends Controller
         $mensaje = "Usuario $socio->nombre ($socio->ficha) editado satisfactoriamente.";
 
         return $this->successMessage(message: $mensaje);
+        return view('seguridad.usuarios.show', ['usuario' => $socio->cedula]);
     }
 
     public function updateUser(UpdateUserRequest $request): JsonResponse

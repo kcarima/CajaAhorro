@@ -50,6 +50,7 @@ final class SocioFactory extends Factory
             'es_fiador' => $this->faker->boolean(25),
             'telefono' => $this->faker->numerify('0##########'),
             'telefono_secundario' => $this->faker->boolean(25) ? $this->faker->numerify('0##########') : null,
+            'fecha_nacimiento' => $this->faker->boolean(5) ? $this->faker->date() : null,
             'fecha_fallecido' => $this->faker->boolean(5) ? $this->faker->date() : null,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),

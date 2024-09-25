@@ -42,7 +42,7 @@ final class ZonasComponent extends Component
     {
 
         try {
-            $zona = Zona::withCount(['socios'])->where('uuid', $id)->firstOrFail();
+            $zona = Zona::withCount(['socios'])->where('id', $id)->firstOrFail();
 
             if ($zona->socios_count > 0) {
                 $this->dispatch('message-alert', success: false, title: '¡Whoops! Algo salió mal.', message: 'No se puede eliminar una zona ocupada por socios.');
@@ -68,7 +68,7 @@ final class ZonasComponent extends Component
         abort_unless(auth()->user()->is_root(), 404);
 
         try {
-            $zona = Zona::withTrashed()->withCount(['socios'])->where('uuid', $id)->firstOrFail();
+            $zona = Zona::withTrashed()->withCount(['socios'])->where('id', $id)->firstOrFail();
 
             if ($zona->socios_count > 0) {
                 $this->dispatch('message-alert', success: false, title: '¡Whoops! Algo salió mal.', message: 'No se puede eliminar una zona ocupada por socios.');
@@ -93,7 +93,7 @@ final class ZonasComponent extends Component
         abort_unless(auth()->user()->is_root(), 404);
 
         try {
-            $zona = Zona::withTrashed()->where('uuid', $id)->firstOrFail();
+            $zona = Zona::withTrashed()->where('id', $id)->firstOrFail();
 
             $zona->restore();
 

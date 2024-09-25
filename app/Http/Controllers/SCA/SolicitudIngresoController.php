@@ -32,13 +32,13 @@ final class SolicitudIngresoController extends Controller
 
         $cargos = Cargo::pluck('nombre');
         $departamentos = Departamento::pluck('nombre');
-        $tipos_empleados = TipoTrabajador::all(['uuid', 'nombre']);
-        $condiciones_laborales = RelacionLaboral::all(['uuid', 'nombre']);
+        $tipos_empleados = TipoTrabajador::all(['id', 'nombre']);
+        $condiciones_laborales = RelacionLaboral::all(['id', 'nombre']);
         $bancos = Banco::all(['codigo', 'nombre', 'abreviatura']);
         $tipos_cuentas = TipoCuentaBancaria::public()->pluck('nombre');
-        $parentescos = Parentesco::all(['uuid', 'nombre']);
-        $zonas = Zona::all(['uuid', 'nombre']);
-        $sedes = Sede::all(['uuid', 'nombre']);
+        $parentescos = Parentesco::all(['id', 'nombre']);
+        $zonas = Zona::all(['id', 'nombre']);
+        $sedes = Sede::all(['id', 'nombre']);
 
         $data = [
             'cargos' => $cargos,
@@ -68,11 +68,11 @@ final class SolicitudIngresoController extends Controller
         $doc_resolucion = null;
 
         if(isset($request->sede)) {
-            $sede = Sede::where('uuid', $request->sede)->value('id');
+            $sede = Sede::where('id', $request->sede)->value('id');
         }
 
         if(isset($request->zona)) {
-            $zona = Zona::where('uuid', $request->zona)->value('id');
+            $zona = Zona::where('id', $request->zona)->value('id');
         }
 
         if($request->doc_cedula) {
@@ -111,8 +111,8 @@ final class SolicitudIngresoController extends Controller
                 'bancos' => isset($request->banco) ? json_encode($request->banco) : null,
                 'doc_cedula' => $doc_cedula,
                 'doc_resolucion' => $doc_resolucion,
-                'sede_id' => $sede,
-                'zona_id' => $zona,
+                'sede_id' => $request->sede,
+                'zona_id' => $request->zona,
             ]);
 
         } catch (Exception $e) {
@@ -122,7 +122,7 @@ final class SolicitudIngresoController extends Controller
             if ($doc_resolucion) {
                 Storage::delete($doc_resolucion);
             }
-            
+
             throw_if(env('APP_DEBUG'), $e);
 
             return $this->errorMessage(message: 'Error al registrar la solicitud.');

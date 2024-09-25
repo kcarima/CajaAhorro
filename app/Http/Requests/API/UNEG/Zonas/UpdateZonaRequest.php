@@ -15,7 +15,7 @@ final class UpdateZonaRequest extends ApiFormRequest
      */
     public function rules(): array
     {
-        $zona = Zona::where('uuid', $this->uuid)->firstOrFail();
+        $zona = Zona::where('id', $this->id)->firstOrFail();
 
         return [
             'nombre' => ['required', Rule::unique('uneg.sedes')->ignore($zona)],

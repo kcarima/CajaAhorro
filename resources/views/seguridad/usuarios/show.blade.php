@@ -19,18 +19,16 @@
                     </p>
                 </div>
             </div>
-            <div class="grid lg:grid-cols-2 lg:gap-4 grid-cols-1 gap-2 mx-4 mt-2">
+            <div class="grid lg:grid-cols-5 lg:gap-4 grid-cols-1 gap-2 mx-4 mt-2">
                 <div>
                     <p class="block font-medium text-sm text-gray-700">Cédula</p>
                     <p class="border-gray-300 rounded-md shadow-sm py-2 px-3 bg-gray-200">{{ $usuario->cedula }}</p>
                 </div>
                 <div>
-                    <p class="block font-medium text-sm text-gray-700">{{ __('Email') }}</p>
-                    <p class="border-gray-300 rounded-md shadow-sm py-2 px-3 bg-gray-200">{{ $usuario->email ?? 'N/D' }}
-                    </p>
+                    <p class="block font-medium text-sm text-gray-700">Fecha Nacimiento</p>
+                    <p class="border-gray-300 rounded-md shadow-sm py-2 px-3 bg-gray-200">
+                        {{ standart_date_format($usuario->socio->fecha_nacimiento ?? '2000-01-01') }}</p>
                 </div>
-            </div>
-            <div class="grid lg:grid-cols-2 grid-cols-1 lg:gap-4 gap-2 mx-4 mt-2 mb-2">
                 <div>
                     <p class="block font-medium text-sm text-gray-700">Teléfono</p>
                     <p class="border-gray-300 rounded-md shadow-sm py-2 px-3 bg-gray-200">
@@ -41,40 +39,45 @@
                     <p class="border-gray-300 rounded-md shadow-sm py-2 px-3 bg-gray-200">
                         {{ $usuario->socio->telefono_secundario ?? 'N/D' }}</p>
                 </div>
-            </div>
-            @if ($usuario->socio->fecha_fallecido)
-                <div class="grid lg:grid-cols-2 grid-cols-1 lg:gap-4 gap-2 mx-4 mb-2">
+                @if ($usuario->socio->fecha_fallecido)
                     <div>
                         <p class="block font-medium text-sm text-gray-700">Fecha Fallecido</p>
                         <p class="border-gray-300 rounded-md shadow-sm py-2 px-3 bg-gray-200">
                             {{ standart_date_format($usuario->socio->fecha_fallecido) }}</p>
                     </div>
+                @endif
+            </div>
+            <div class="grid lg:grid-cols-4 grid-cols-1 lg:gap-4 gap-2 mx-4 mt-2 mb-2">
+                <div class="lg:col-span-2 w-full">
+                    <p class="block font-medium text-sm text-gray-700">{{ __('Email') }}</p>
+                    <p class="border-gray-300 rounded-md shadow-sm py-2 px-3 bg-gray-200">{{ $usuario->email ?? 'N/D' }}
+                    </p>
                 </div>
-            @endif
+            </div>
         </div>
     </details>
 
     <details class="mb-4">
         <summary class="w-full text-white bg-blue-800 text-xl p-2">Datos UNEG</summary>
         <div class="text-lg w-full text-black py-2 border-2 border-solid border-gray-300">
-            <div class="grid lg:grid-cols-3 grid-cols-1 lg:gap-4 gap-2 mx-4">
+            <div class="grid lg:grid-cols-6 grid-cols-1 lg:gap-4 gap-2 mx-4">
                 <div>
                     <p class="block font-medium text-sm text-gray-700">Fecha Ingreso</p>
                     <p class="border-gray-300 rounded-md shadow-sm py-2 px-3 bg-gray-200">
                         {{ standart_date_format($usuario->socio->fecha_ingreso_uneg) }}</p>
                 </div>
-                <div>
+                <div class="lg:col-span-2 w-full">
                     <p class="block font-medium text-sm text-gray-700">Cargo</p>
                     <p class="border-gray-300 rounded-md shadow-sm py-2 px-3 bg-gray-200">
                         {{ $usuario->socio->cargo?->nombre ?? 'N/D' }}</p>
                 </div>
-                <div>
+                <div class="lg:col-span-3 w-full">
                     <p class="block font-medium text-sm text-gray-700">Departamento</p>
                     <p class="border-gray-300 rounded-md shadow-sm py-2 px-3 bg-gray-200">
                         {{ $usuario->socio->departamento?->nombre ?? 'N/D' }}</p>
                 </div>
             </div>
-            <div class="grid lg:grid-cols-3 grid-cols-1 lg:gap-4 gap-2 mx-4 mt-2">
+            <div class="grid lg:grid-cols-4 grid-cols-1 lg:gap-4 gap-2 mx-4 mt-2">
                 <div>
                     <p class="block font-medium text-sm text-gray-700">Tipo de empleado</p>
                     <p class="border-gray-300 rounded-md shadow-sm py-2 px-3 bg-gray-200">
@@ -86,20 +89,31 @@
                         {{ $usuario->socio->relacion_laboral?->nombre ?? 'N/D' }}</p>
                 </div>
                 <div>
+                    <p class="block font-medium text-sm text-gray-700">Sede</p>
+                    <p class="border-gray-300 rounded-md shadow-sm py-2 px-3 bg-gray-200">
+                        {{ $usuario->socio->sede?->nombre ?? 'N/D' }}</p>
+                </div>
+                <div>
                     <p class="block font-medium text-sm text-gray-700">Sueldo</p>
                     <p class="border-gray-300 rounded-md shadow-sm py-2 px-3 bg-gray-200">
                         {{ $usuario->socio->sueldo ? number_format($usuario->socio->sueldo, 2, ',', '.') : 'N/D' }} {{ $usuario->socio->sueldo ? $usuario->socio->moneda->abreviatura : '' }}</p>
                 </div>
             </div>
-            @if ($usuario->socio->fecha_retiro_uneg)
-                <div class="mx-4 mt-2 grid lg:grid-cols-3 gap-4 mb-2">
+            <div class="mx-4 mt-2 grid lg:grid-cols-3 gap-4 mb-2">
+
+                <div>
+                    <p class="block font-medium text-sm text-gray-700">Zona</p>
+                    <p class="border-gray-300 rounded-md shadow-sm py-2 px-3 bg-gray-200">
+                        {{ $usuario->socio->zona?->nombre ?? 'N/D' }}</p>
+                </div>
+                @if ($usuario->socio->fecha_retiro_uneg)
                     <div>
                         <p class="block font-medium text-sm text-gray-700">Fecha de retiro</p>
                         <p class="border-gray-300 rounded-md shadow-sm py-2 px-3 bg-gray-200">
                             {{ standart_date_format($usuario->socio->fecha_retiro_uneg) }}</p>
                     </div>
-                </div>
-            @endif
+                @endif
+            </div>
         </div>
     </details>
 
@@ -143,7 +157,6 @@
                         </div>
                     </div>
                 </div>
-
             @endforeach
         </details>
     @endif

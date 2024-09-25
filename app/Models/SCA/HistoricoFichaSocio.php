@@ -31,6 +31,8 @@ final class HistoricoFichaSocio extends Model
         'sueldo',
         'moneda_id',
         'ficha_anterior',
+        'sede_id',
+        'zona_id',
     ];
 
     protected $with = ['cargo', 'departamento', 'tipo_trabajador', 'relacion_laboral', 'moneda'];

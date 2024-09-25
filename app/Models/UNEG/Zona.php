@@ -42,12 +42,12 @@ final class Zona extends Model
                     default => 'desconocido',
                 };
 
-                return "lA zona :subject.nombre ha sido $evento";
+                return "La zona :subject.nombre ha sido $evento";
             });
     }
 
     public function socios()
     {
-        return $this->hasMany(Socio::class);
+        return $this->hasMany(Socio::class, 'id', 'zona_id');
     }
 }

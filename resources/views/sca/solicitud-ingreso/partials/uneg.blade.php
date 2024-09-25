@@ -59,7 +59,7 @@
                 <x-input.select class="w-full filled" id="sede" name="sede">
                     <option value=""></option>
                     @foreach ($sedes as $sede)
-                        <option value="{{ $sede->uuid }}">{{ $sede->nombre }}</option>
+                        <option value="{{ $sede->id }}">{{ $sede->nombre }}</option>
                     @endforeach
                 </x-input.select>
             </div>
@@ -68,7 +68,7 @@
                 <x-input.select class="w-full filled" id="zona" name="zona">
                     <option value=""></option>
                     @foreach ($zonas as $zona)
-                        <option value="{{ $zona->uuid }}">{{ $zona->nombre }}</option>
+                        <option value="{{ $zona->id }}">{{ $zona->nombre }}</option>
                     @endforeach
                 </x-input.select>
             </div>

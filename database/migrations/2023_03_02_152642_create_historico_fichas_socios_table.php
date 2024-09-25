@@ -21,6 +21,8 @@ return new class extends Migration
             $table->foreignId(column: 'tipo_trabajador_id')->nullable()->references(column: 'id')->on(table: 'uneg.tipos_trabajadores')->onUpdate(action: 'cascade')->onDelete(action: 'restrict');
             $table->decimal(column: 'sueldo', total: 14, places: 4)->default(value: 0.0);
             $table->foreignId(column: 'moneda_id')->references(column: 'id')->on(table: 'sca.monedas')->onDelete(action: 'restrict')->onUpdate(action: 'cascade');
+            $table->foreignId(column: 'sede_id')->nullable()->references(column: 'id')->on(table: 'uneg.sede')->onUpdate(action: 'cascade')->onDelete(action: 'restrict');
+            $table->foreignId(column: 'zona_id')->nullable()->references(column: 'id')->on(table: 'uneg.zona')->onUpdate(action: 'cascade')->onDelete(action: 'restrict');
             $table->timestamps();
 
             $table->foreign(columns: 'cedula')->references(columns: 'cedula')->on(table: 'sca.socios')->onDelete(action: 'cascade')->onUpdate(action: 'cascade');
