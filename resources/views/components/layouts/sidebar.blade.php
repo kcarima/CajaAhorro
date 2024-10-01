@@ -80,6 +80,11 @@
 
                 <ul class="menu-sub">
                     <li class="menu-item">
+                        <a href="{{ route('solicitudes.prestamos.index') }}" class="menu-link">
+                            <div data-i18n="Without navbar">Solicitud de Prestamos</div>
+                        </a>
+                    </li>
+                    <li class="menu-item">
                         <a href="{{ route('solicitudes.ingresos.index') }}" class="menu-link">
                             <div data-i18n="Without navbar">Solicitudes de Ingreso</div>
                         </a>

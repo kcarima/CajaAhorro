@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\SCA\SolicitudIngresoController;
+//use App\Http\livewire\Sca\SolicitudPrestamoController;
 use App\Http\Controllers\Seguridad\ResetPasswordController;
 use App\Http\Controllers\Seguridad\UsuariosController;
 use Illuminate\Support\Facades\Route;
@@ -53,6 +54,11 @@ Route::controller(ResetPasswordController::class)->middleware(['auth'])->group(f
 Route::controller(SolicitudIngresoController::class)->group(function () {
     Route::get('solicitud/ingreso', 'create')->name('solicitud.ingreso.create');
     Route::post('solicitud/ingreso', 'store')->name('solicitud.ingreso.store');
+});
+
+Route::controller(SolicitudPrestamoController::class)->group(function () {
+    Route::get('solicitud/prestamo', 'create')->name('solicitud.prestamo.create');
+    Route::post('solicitud/prestamo', 'store')->name('solicitud.prestamo.store');
 });
 
 use Barryvdh\DomPDF\Facade\Pdf;
