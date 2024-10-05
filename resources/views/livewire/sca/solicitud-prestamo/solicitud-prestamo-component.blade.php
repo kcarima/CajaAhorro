@@ -48,5 +48,4 @@
             </tr>
         @endforelse
     </x-tabla>
-    {{ $solicitudes->links() }}
 </div>
