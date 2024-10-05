@@ -17,7 +17,8 @@
         "mews/captcha": "^3.3",
         "spatie/laravel-activitylog": "^4.8",
         "spatie/laravel-honeypot": "^4.5",
-        "symfony/dom-crawler": "^7.0"
+        "symfony/dom-crawler": "^7.0",
+        "wireui/wireui": "^2.1"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.8.1",

@@ -1,4 +1,5 @@
 <div>
+
     <x-form.validation-error-template />
 
     <x-tabla titulo="Bandeja de Solicitudes de Prestamos">
@@ -12,13 +13,13 @@
                     {{  $fecha[2] }}/{{  $fecha[1] }}/{{  $fecha[0] }}
                 </td>
                 <td class="text-center td-codigo" style="font-size: 10 !important;">
-                    {{ $solicitud->tipo_prestamo }}
+                    [{{ $solicitud->tipoPrestamo->codigo }}] - {{ $solicitud->tipoPrestamo->nombre }}
                 </td>
                 <td class="text-center td-codigo" style="font-size: 10 !important;">
                     {{ $solicitud->ficha }}
                 </td>
                 <td class="text-center td-codigo" style="font-size: 10 !important;">
-                    {{ $solicitud->moneda }}
+                    {{ $solicitud->Moneda->abreviatura }}
                 </td>
                 <td class="text-right td-codigo" style="font-size: 10 !important;">
                     {{ number_format($solicitud->monto, 2, ",", ".") }}
@@ -41,10 +42,11 @@
             </tr>
         @empty
             <tr>
-                <td colspan="6" class="text-center">
+                <td colspan="7" class="text-center">
                     <span class="text-gray-900">No existen registros</span>
                 </td>
             </tr>
         @endforelse
     </x-tabla>
+    {{ $solicitudes->links() }}
 </div>

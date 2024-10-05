@@ -4,34 +4,59 @@ namespace App\Livewire\Sca\SolicitudPrestamo;
 
 use App\Models\SCA\SolicitudPrestamo;
 
+
+use Livewire\Attributes\Reactive;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class SolicitudPrestamoComponent extends Component
 {
-    public $filtro = [
-        'fecha_solicitud' => '',
-        'tipo_prestamo' => '',
-        'socio' => '',
-        'moneda' => '',
-        'estatus' => ''
-    ];
+
+    use WithPagination;
+
+    #[Reactive]
+    public $filtroBusqueda;
+
+    public $resultado;
 
     public function render()
     {
-        $solicitudes = SolicitudPrestamo::all();//BuscarSolicitudPrestamo::handle($this->busqueda);
+        $solicitudes = $this->buscar();//BuscarSolicitudPrestamo::handle($this->busqueda);
         return view('livewire.sca.solicitud-prestamo.solicitud-prestamo-component', ['solicitudes' => $solicitudes]);
     }
 
-    #[On('valor-cambiado')]
-    public function busqueda($busqueda)
+    public function buscar()
     {
-        $query = "select 	a.id,a.ficha,a.fecha_solicitud,b.nombre tipo_prestamo,c.abreviatura,a.monto,a.status
-                  from 	sca.solicitud_prestamo a
-                        left join sca.tipos_prestamos b on a.tipo_prestamo=b.id
-                        left join sca.monedas c on a.moneda=c.id
-                  order by 3 desc";
-                          
-        $this->filtro = $busqueda;
-        $this->dispatch('refresh-listeners');
+        $query = SolicitudPrestamo::query();
+
+        $query->when($this->filtroBusqueda['fecha_solicitud_desde'], function ($query) {
+            if ($this->filtroBusqueda['fecha_solicitud_desde'] != ''){
+                $query->where('fecha_solicitud', '>=',$this->filtroBusqueda["fecha_solicitud_desde"])
+                      ->where('fecha_solicitud', '<=',$this->filtroBusqueda["fecha_solicitud_hasta"]);
+            }
+        })
+
+        ->when($this->filtroBusqueda['tipo_prestamo'], function ($query) {
+            if ($this->filtroBusqueda['tipo_prestamo'] != ''){
+                $query->where('tipo_prestamo', $this->filtroBusqueda["tipo_prestamo"]);
+            }
+        })
+
+        ->when($this->filtroBusqueda['moneda'], function ($query) {
+            if ($this->filtroBusqueda['moneda'] != ''){
+                $query->where('moneda', $this->filtroBusqueda["moneda"]);
+            }
+        })
+
+        ->when($this->filtroBusqueda['estatus'], function ($query) {
+            if ($this->filtroBusqueda['estatus'] != ''){
+                $query->where('status', $this->filtroBusqueda["estatus"]);
+            }
+        })
+
+        ->with('TipoPrestamo')->with('Moneda')->orderBy('fecha_solicitud','DESC')->paginate(2);
+        return $this->resultado = $query->get();
     }
+
 }
+
