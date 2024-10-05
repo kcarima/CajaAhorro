@@ -2,9 +2,9 @@
 
 namespace App\Models\SCA;
 
-use App\Interfaces\SCA\Socio;
-use App\Interfaces\SCA\TipoPrestamo;
-use App\Interfaces\SCA\Moneda;
+use App\Models\SCA\Socio;
+use App\Models\SCA\TipoPrestamo;
+use App\Models\SCA\Moneda;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;

@@ -1,32 +1,41 @@
 <?php
 
 namespace App\Livewire\Sca\SolicitudPrestamo;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use App\Models\SCA\TipoPrestamo;
+use App\Models\SCA\Moneda;
 //
 
 use Livewire\Component;
 
 class CriterioBusquedaComponent extends Component
 {
-    use HasFactory;
-    public $busqueda = [
-        'fecha_solicitud' => '',
+    public $fechaActual;
+
+    public $filtroBusqueda = [
+        'fecha_solicitud_desde' => '',
+        'fecha_solicitud_hasta' => '',
         'tipo_prestamo' => '',
         'socio' => '',
         'moneda' => '',
-        'estatus' => ''
+        'estatus' => 'PENDIENTE'
     ];
 
     public $tiposPrestamos = "";
+    public $monedas = "";
+
+    public function mount(){
+        $this->fechaActual = date('Y-m-d');
+        $this->filtroBusqueda['fecha_solicitud_desde']=$this->fechaActual;
+        $this->filtroBusqueda['fecha_solicitud_hasta']=$this->fechaActual;
+    }
 
     public function render(){
         $this->tiposPrestamos = TipoPrestamo::all();
-        return view('livewire.sca.solicitud-prestamo.criterio-busqueda', ['tiposPrestamos' => $this->tiposPrestamos]);
+        $this->monedas = Moneda::all();
+        return view('livewire.sca.solicitud-prestamo.criterio-busqueda', [
+                                                                            'tiposPrestamos' => $this->tiposPrestamos,
+                                                                            'filtroBusqueda' => $this->filtroBusqueda,
+                                                                            'monedas' => $this->monedas
+                                                                         ]);
     }
-
-    public function updateBus(){
-        $this->dispatch('valor-cambiado', busqueda: $this->busqueda);
-    }    
 }
