@@ -38,4 +38,6 @@ class CriterioBusquedaComponent extends Component
                                                                             'monedas' => $this->monedas
                                                                          ]);
     }
+
+
 }

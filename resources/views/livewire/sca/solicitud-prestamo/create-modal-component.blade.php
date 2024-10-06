@@ -1,8 +1,15 @@
 <div>
+
     <button wire:click="create" class="btn btn-primary float-right" style="font-size: 18 !important;">+</button>
     @if($isOpen)
         @php
-            $fechaActual = date('d-m-Y');
+
+            if($postId != 0){
+                $fecha = explode('-',$fs_create);
+                $fechaActual = $fecha[2].'-'.$fecha[1].'-'.$fecha[0];
+            }else{
+                $fechaActual = date('d-m-Y');
+            }
         @endphp
         <div class="modal show" tabindex="-1" role="dialog" style="display:block;">
             <div class="modal-dialog" role="document">

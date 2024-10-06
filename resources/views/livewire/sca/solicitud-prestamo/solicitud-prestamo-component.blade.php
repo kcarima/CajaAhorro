@@ -35,9 +35,9 @@
                             <i class="bx bx-dots-vertical-rounded"></i>
                         </button>
                         <div class="dropdown-menu">
-                            <a class="dropdown-item" href=""><i
+                            <a class="dropdown-item" wire:click="editarSp({{$solicitud->id}})"><i
                                 class="bx bx-edit-alt me-1"></i>
-                            Detalle</a>
+                            Editar</a>
                         </div>
                     </div>
                 </td>

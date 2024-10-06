@@ -67,5 +67,8 @@ class SolicitudPrestamoComponent extends Component
         return $query->paginate(2);
     }
 
+    public function editarSp($id){
+        $this->dispatch('click-editarSp', id: $id);
+    }
 }
 
