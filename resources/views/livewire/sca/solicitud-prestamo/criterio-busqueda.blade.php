@@ -1,5 +1,6 @@
 <div class="card ">
-    <h5 class="card-header">Criterio de Búsqueda</h5>
+
+    <h5 class="card-header"><livewire:Sca.solicitud-prestamo.create-modal-component/> Criterio de Búsqueda </h5>
     <div class="table-responsive text-nowrap overflow-auto">
         <table class="table table-responsive text-nowrap">
             <thead>
@@ -37,6 +38,7 @@
                     </td>
                     <td class="text-center">
                         <select  wire:model.live="filtroBusqueda.estatus" style="font-size: 12 !important;width: 120px !important;">
+                            <option value="">--Todos--</option>
                             <option value="PENDIENTE">PENDIENTE</option>
                             <option value="APROBADO">APROBADO</option>
                             <option value="RECHAZADO">RECHAZADO</option>

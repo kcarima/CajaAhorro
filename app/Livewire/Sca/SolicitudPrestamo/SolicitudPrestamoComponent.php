@@ -21,7 +21,7 @@ class SolicitudPrestamoComponent extends Component
 
     public function render()
     {
-        $solicitudes = $this->buscar();//BuscarSolicitudPrestamo::handle($this->busqueda);
+        $solicitudes = $this->buscar();
         return view('livewire.sca.solicitud-prestamo.solicitud-prestamo-component', ['solicitudes' => $solicitudes]);
     }
 
@@ -64,7 +64,7 @@ class SolicitudPrestamoComponent extends Component
             }
         })
         ->orderBy('fecha_solicitud','DESC')->paginate(2);
-        return $this->resultado = $query->get();
+        return $query->paginate(2);
     }
 
 }

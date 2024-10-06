@@ -44,10 +44,15 @@
             </tr>
         @empty
             <tr>
-                <td colspan="7" class="text-center">
+                <td colspan="7" class="text-center" >
                     <span class="text-gray-900">No existen registros</span>
                 </td>
             </tr>
         @endforelse
+        <tr>
+            <td colspan="7" class="text-center" >
+                <span style="display: flex !important;align-items: center !important;justify-content: center !important;">{{ $solicitudes->links() }}</span>
+            </td>
+        </tr>
     </x-tabla>
 </div>

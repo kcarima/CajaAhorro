@@ -4,6 +4,9 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 
+use Illuminate\Pagination\Paginator;
+
+
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -31,5 +34,8 @@ class AppServiceProvider extends ServiceProvider
         if (\Str::contains(\Config::get('app.url'), 'https://')) {
             \URL::forceScheme('https');
         }
+
+
+        Paginator::useBootstrapFive();
     }
 }

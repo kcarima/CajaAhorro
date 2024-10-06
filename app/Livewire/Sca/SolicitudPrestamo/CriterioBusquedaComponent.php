@@ -17,7 +17,7 @@ class CriterioBusquedaComponent extends Component
         'tipo_prestamo' => '',
         'socio' => '',
         'moneda' => '',
-        'estatus' => 'PENDIENTE'
+        'estatus' => ''
     ];
 
     public $tiposPrestamos = "";
@@ -30,8 +30,8 @@ class CriterioBusquedaComponent extends Component
     }
 
     public function render(){
-        $this->tiposPrestamos = TipoPrestamo::all();
-        $this->monedas = Moneda::all();
+        $this->tiposPrestamos = TipoPrestamo::query()->orderBy('nombre')->get();
+        $this->monedas = Moneda::query()->orderBy('abreviatura')->get();
         return view('livewire.sca.solicitud-prestamo.criterio-busqueda', [
                                                                             'tiposPrestamos' => $this->tiposPrestamos,
                                                                             'filtroBusqueda' => $this->filtroBusqueda,
