@@ -15,8 +15,10 @@
                 <td class="text-center td-codigo" style="font-size: 10 !important;">
                     [{{ $solicitud->tipoPrestamo->codigo }}] - {{ $solicitud->tipoPrestamo->nombre }}
                 </td>
-                <td class="text-center td-codigo" style="font-size: 10 !important;">
-                    {{ $solicitud->ficha }}
+                <td class="text-left td-codigo" style="font-size: 10 !important;">
+                    <p>[{{ $solicitud->Socio->ficha }}]</p>
+                    <p>[{{ $solicitud->Socio->cedula }}]</p>
+                    <p>[{{ $solicitud->Socio->nombre }}]</p>
                 </td>
                 <td class="text-center td-codigo" style="font-size: 10 !important;">
                     {{ $solicitud->Moneda->abreviatura }}

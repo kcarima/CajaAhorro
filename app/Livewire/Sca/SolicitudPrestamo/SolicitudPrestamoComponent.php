@@ -54,7 +54,16 @@ class SolicitudPrestamoComponent extends Component
             }
         })
 
-        ->with('TipoPrestamo')->with('Moneda')->orderBy('fecha_solicitud','DESC')->paginate(2);
+        ->with('TipoPrestamo')
+        ->with('Moneda')
+        ->wherehas('socio', function($query){
+            if ($this->filtroBusqueda['socio'] != ''){
+                $query->where('ficha','ilike', '%'.$this->filtroBusqueda["socio"].'%')
+                      ->orWhere('cedula', 'ilike', '%' . $this->filtroBusqueda["socio"] . '%')
+                      ->orWhere('nombre', 'ilike', '%' . $this->filtroBusqueda["socio"] . '%');
+            }
+        })
+        ->orderBy('fecha_solicitud','DESC')->paginate(2);
         return $this->resultado = $query->get();
     }
 
