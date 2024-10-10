@@ -3,7 +3,7 @@
         Jornadas de Solicitud Prestamos
     </x-slot>
 
-    @push('search')            
+    @push('search')
         <livewire:Sca.solicitud-prestamo-jornada.CriterioBusquedaComponent />
     @endpush
     <livewire:Sca.solicitud-prestamo-jornada.create-modal-component />

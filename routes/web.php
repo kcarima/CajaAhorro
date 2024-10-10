@@ -62,7 +62,7 @@ Route::controller(SolicitudPrestamoController::class)->group(function () {
 });
 
 Route::controller(SolicitudPrestamoJornadaController::class)->group(function () {
-    Route::post('jornada/solicitud/prestamo', 'create')->name('jornada.solicitud.prestamo.create');
+    Route::get('jornada/solicitud/prestamo', 'create')->name('jornada.solicitud.prestamo.create');
     Route::post('jornada/solicitud/prestamo', 'store')->name('jornada.solicitud.prestamo.store');
 });
 

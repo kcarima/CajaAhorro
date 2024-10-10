@@ -138,7 +138,7 @@ Route::controller(SolicitudPrestamoController::class)->group(function () {
 });
 
 Route::controller(SolicitudPrestamoJornadaController::class)->group(function () {
-    Route::post('jornada/solicitud/prestamo', 'index')->name('solicitud.prestamo.jornada.index');
+    Route::get('jornada/solicitud/prestamo', 'index')->name('solicitud.prestamo.jornada.index');
 });
 
 

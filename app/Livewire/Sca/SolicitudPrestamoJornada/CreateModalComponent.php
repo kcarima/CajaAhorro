@@ -6,6 +6,8 @@ use App\Models\SCA\SolicitudPrestamo;
 use App\Models\SCA\TipoPrestamo;
 use App\Models\SCA\Moneda;
 
+use App\Http\Requests\SCA\JonadaSolicitudPrestamo\StoreJornadaSolicitudPrestamoRequest;
+
 use Livewire\Component;
 use Livewire\Attributes\On;
 
@@ -58,7 +60,7 @@ class CreateModalComponent extends Component
         $this->registroFjsp['tipoPrestamo']='';
         $this->registroFjsp['tipoMoneda']='';
         $this->registroFjsp['montotope']=0.00;
-        $this->registroFjsp['cuotas']=0.00;        
+        $this->registroFjsp['cuotas']=0.00;
     }
 
     public function render(){
@@ -80,8 +82,26 @@ class CreateModalComponent extends Component
         $this->openModal();
     }
 
-    public function create(){
+    public function create($request){
+        try {
+            TipoPrestamo::create(
+                [
+                    'codigo' => $request->codigo,
+                    'nombre' => $request->nombre,
+                    'cantidad_cuotas' => $request->cuotas,
+                    'dias_cuotas' => $request->dias_cuotas,
+                    'tasa_interes' => $request->interes,
+                    'meses_tasa' => $request->meses_tasa,
+                    'plazo_siguiente_solicitud' => $request->plazo,
+                    'cuota_especial' => isset($request->especial) ? true : false,
+                    'habilitar' => isset($request->habilitado) ? true : false,
+                ]
+            );
+        } catch (Exception $e) {
+            return back()->withErrors('Error al crear el tipo de prestamo');
+        }
 
+        return to_route('tipo-prestamo.index')->with('success', 'Tipo de Prestamo creado satisfactoriamente');
     }
 
 }

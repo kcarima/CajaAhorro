@@ -8,20 +8,20 @@ return new class extends Migration{
     /**
      * Run the migrations.
      */
-    
+
     public function up(): void
     {
         Schema::connection('sca')->create('solicitud_prestamo_table', function (Blueprint $table){
             $table->id();
-            
+
             $table->date(column: 'fecha_solicitud');
-            
-            $table->foreignId(column: 'jornada_solicitud_prestamo_id')->references(column: 'id')->on(table: 'sca.jornada_solicitud_prestamo_table')->onUpdate(action: 'cascade')->onDelete(action: 'restrict');
+
+            $table->foreignId(column: 'jornada_solicitud_prestamo_detalle_id')->references(column: 'id')->on(table: 'sca.jornada_solicitud_prestamo_detalle')->onUpdate(action: 'cascade')->onDelete(action: 'restrict');
 
             $table->foreignId(column: 'socio_id')->references(column: 'id')->on(table: 'sca.socios')->onUpdate(action: 'cascade')->onDelete(action: 'restrict');
             $table->foreignId(column: 'tipo_prestamo_id')->references(column: 'id')->on(table: 'sca.tipos_prestamos')->onUpdate(action: 'cascade')->onDelete(action: 'restrict');
             $table->foreignId(column: 'moneda_id')->references(column: 'id')->on(table: 'sca.monedas')->onUpdate(action: 'cascade')->onDelete(action: 'restrict');
-            
+
             $table->decimal(column: 'monto', total: 16, places: 2)->default(value: 0.00);
             $table->smallInteger('cant_cuotas')->default(value: 0);
 
@@ -31,7 +31,7 @@ return new class extends Migration{
             $table->index(['fecha_solicitud']);
             $table->index(['status']);
 
-            
+
             $table->timestamps();
         });
     }
