@@ -1,6 +1,8 @@
 <div>
     <div class="w-full flex justify-end">
-        <button wire:click="formSp" class="flex gap-2 rounded-md bg-white shadow-md p-2 items-center mb-4 hover:shadow-lg hover:cursor-pointer" style="font-size: 18 !important;">Agregar</button>        
+        <button wire:click="formSp" class="flex gap-2 rounded-md bg-white shadow-md p-2 items-center mb-4 hover:shadow-lg hover:cursor-pointer" style="font-size: 18 !important;">            
+            <b class="text-blue-700">+</b><span class="text-gray-700">Agregar</span>
+        </button>        
     </div>    
     @if($isOpen)
         @php
@@ -15,7 +17,7 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content text-bg-dark" >
                     <div class="modal-header">
-                        <h5 class="modal-title">{{ $postId ? 'Editar' : 'Crear' }} Solicitud Prestamo</h5>
+                        <h5 class="modal-title">{{ $postId ? 'Editar' : 'Crear' }} Jornada Solicitud Prestamo</h5>
                     </div>
                     <div class="modal-body">
                         <form wire:submit="store">

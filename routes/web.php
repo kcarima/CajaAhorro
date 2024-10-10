@@ -57,8 +57,13 @@ Route::controller(SolicitudIngresoController::class)->group(function () {
 });
 
 Route::controller(SolicitudPrestamoController::class)->group(function () {
-    Route::get('solicitud/prestamo', 'create')->name('solicitud.prestamo.create');
+    Route::post('solicitud/prestamo', 'create')->name('solicitud.prestamo.create');
     Route::post('solicitud/prestamo', 'store')->name('solicitud.prestamo.store');
+});
+
+Route::controller(SolicitudPrestamoJornadaController::class)->group(function () {
+    Route::post('jornada/solicitud/prestamo', 'create')->name('jornada.solicitud.prestamo.create');
+    Route::post('jornada/solicitud/prestamo', 'store')->name('jornada.solicitud.prestamo.store');
 });
 
 use Barryvdh\DomPDF\Facade\Pdf;

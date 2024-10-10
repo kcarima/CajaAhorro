@@ -80,6 +80,11 @@
 
                 <ul class="menu-sub">
                     <li class="menu-item">
+                        <a href="{{ route('solicitud.prestamo.jornada.index') }}" class="menu-link">
+                            <div data-i18n="Without navbar">Jornada Solicitud Prestamo</div>
+                        </a>
+                    </li>
+                    <li class="menu-item">
                         <a href="{{ route('solicitudes.prestamos.index') }}" class="menu-link">
                             <div data-i18n="Without navbar">Solicitud de Prestamos</div>
                         </a>
