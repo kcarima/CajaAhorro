@@ -2,11 +2,13 @@
 
 namespace App\Livewire\Sca\SolicitudPrestamoJornada;
 
+use App\Models\SCA\SolicitudPrestamoJornada;
 use App\Models\SCA\SolicitudPrestamo;
+
 use App\Models\SCA\TipoPrestamo;
 use App\Models\SCA\Moneda;
 
-use App\Http\Requests\SCA\JonadaSolicitudPrestamo\StoreJornadaSolicitudPrestamoRequest;
+//use App\Http\Requests\SCA\JonadaSolicitudPrestamo\StoreJornadaSolicitudPrestamoRequest;
 
 use Livewire\Component;
 use Livewire\Attributes\On;
@@ -19,6 +21,7 @@ class CreateModalComponent extends Component
     public $monedas = "";
 
     public $postId=0;
+    public $idCreate=0;
 
     public $registroFjsp = [
         'fechaInicio' => '',
@@ -82,26 +85,36 @@ class CreateModalComponent extends Component
         $this->openModal();
     }
 
-    public function create($request){
+    public function create(){
         try {
-            TipoPrestamo::create(
+            $this->idCreate = SolicitudPrestamoJornada::create(
                 [
-                    'codigo' => $request->codigo,
-                    'nombre' => $request->nombre,
-                    'cantidad_cuotas' => $request->cuotas,
-                    'dias_cuotas' => $request->dias_cuotas,
-                    'tasa_interes' => $request->interes,
-                    'meses_tasa' => $request->meses_tasa,
-                    'plazo_siguiente_solicitud' => $request->plazo,
-                    'cuota_especial' => isset($request->especial) ? true : false,
-                    'habilitar' => isset($request->habilitado) ? true : false,
+                    'fecha_inicio' => $this->registroFjsp['fechaInicio'],
+                    'fecha_cierre' => $this->registroFjsp['fechaFin'],
+                    'observacion' => $this->registroFjsp['observacion'],
+                    'nombre' => $this->registroFjsp['descripcion'],
+                    'status' => 0
                 ]
             );
         } catch (Exception $e) {
-            return back()->withErrors('Error al crear el tipo de prestamo');
+            return back()->withErrors('Error al crear Jornada de prestamo');
         }
 
-        return to_route('tipo-prestamo.index')->with('success', 'Tipo de Prestamo creado satisfactoriamente');
-    }
+        try {
+            $this->idCreate = SolicitudPrestamoJornada::create(
+                [
+                    'fecha_inicio' => $this->registroFjsp['fechaInicio'],
+                    'fecha_cierre' => $this->registroFjsp['fechaFin'],
+                    'observacion' => $this->registroFjsp['observacion'],
+                    'nombre' => $this->registroFjsp['descripcion'],
+                    'status' => 0
+                ]
+            );
+        } catch (Exception $e) {
+            return back()->withErrors('Error al crear Jornada de prestamo');
+        }
 
+
+        return to_route('tipo-prestamo.index')->with('success', 'Jornada de Prestamo creado satisfactoriamente');
+    }
 }

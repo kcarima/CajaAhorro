@@ -13,30 +13,32 @@ class SolicitudPrestamo extends Model
 {
     use HasFactory;
 
-    protected $table = 'sca.solicitud_prestamo';
+    protected $table = 'sca.solicitud_prestamo_table';
 
     protected $fillable = [
-        'ficha',
         'fecha_solicitud',
-        'tipo_prestamo',
-        'moneda',
+        'jornada_solicitud_prestamo_detalle_id',
+        'socio_id',
+        'tipo_prestamo_id',
+        'moneda_id',
         'monto',
+        'cant_cuotas',
         'status'
     ];
 
 
     public function socio()
     {
-        return $this->belongsTo(Socio::class, 'ficha', 'ficha');
+        return $this->belongsTo(Socio::class, 'socio_id', 'id');
     }
 
     public function TipoPrestamo()
     {
-        return $this->belongsTo(TipoPrestamo::class, 'tipo_prestamo', 'id');
+        return $this->belongsTo(TipoPrestamo::class, 'tipo_prestamo_id', 'id');
     }
 
     public function Moneda()
     {
-        return $this->belongsTo(Moneda::class, 'moneda', 'id');
+        return $this->belongsTo(Moneda::class, 'moneda_id', 'id');
     }
 }
