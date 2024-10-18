@@ -26,32 +26,35 @@
                             <div class="text-lg w-full text-black border-2 border-solid border-gray-300">
                                 <div class="grid 2xl:grid-cols-5 md:grid-cols-2 sm:grid-cols-2 grid-cols-2 items-center gap-2 mx-2 mt-2" >
                                     <div>
-                                        <x-label for="nombre" value="Fecha Inicio" />
-                                        <x-input type="date"  pattern="\d{2}-\d{2}-\d{4}" placeholder="DD-MM-AAAA" wire:model.live="registroFjsp.fechaInicio" style="font-size: 12 !important;" value="" required />
+                                        <x-label for="fecha_inicio" value="Fecha Inicio" />
+                                        <x-input type="date"  pattern="\d{2}-\d{2}-\d{4}" placeholder="DD-MM-AAAA" wire:model.live="fecha_inicio" style="font-size: 12 !important;" value="" required id="fecha_inicio" name="fecha_inicio"/>
                                     </div>
                                     <div>
-                                        <x-label for="codigo" value="Fecha Culminación" />
-                                        <x-input type="date"  pattern="\d{2}-\d{2}-\d{4}" placeholder="DD-MM-AAAA" wire:model.live="registroFjsp.fechaFin" style="font-size: 12 !important;"  required />
+                                        <x-label for="fecha_cierre" value="Fecha Culminación" />
+                                        <x-input type="date"  pattern="\d{2}-\d{2}-\d{4}" placeholder="DD-MM-AAAA" wire:model.live="fecha_cierre" style="font-size: 12 !important;"  required id="fecha_cierre" name="fecha_cierre" />
                                     </div>
                                 </div>
 
                                 <div class="gap-2 mx-2 mt-2">
-                                    <x-label for="nombre" value="Descripción" />
-                                    <x-input class="w-full" type="text" wire:model.live="registroFjsp.descripcion" required />
+                                    <x-label for="descripcion" value="Descripción" />
+                                    <x-input class="w-full" type="text" wire:model.live="descripcion" required id="descripcion" name="descripcion"/>
                                 </div>
 
                                 <div class="grid 2xl:grid-cols-5 md:grid-cols-2 sm:grid-cols-2 grid-cols-2 items-center gap-2 mx-2 mt-2" >
                                     <div>
-                                        <x-label for="nombre" value="Tipo de Prestamo" />
-                                        <x-input.select wire:model.live="registroFjsp.tipoPrestamo" class="w-full" required>
+                                        <x-label for="tipo_prestamo" value="Tipo de Prestamo" />
+                                        <x-input.select wire:model.live="tipo_prestamo" class="w-full" required id="tipo_prestamo" name="tipo_prestamo" >
                                             @foreach ($tiposPrestamos as $tiposPrestamo)
                                                 <option value="{{ $tiposPrestamo->id }}" >{{ $tiposPrestamo->nombre }}</option>
                                             @endforeach
                                         </x-input.select>
+                                        @error('tipo_prestamo')
+                                            <span class="text-red-500">{{ $message }}</span>
+                                        @enderror
                                     </div>
                                     <div>
-                                        <x-label for="nombre" value="Tipo de Moneda" />
-                                        <x-input.select wire:model.live="registroFjsp.tipoMoneda" class="w-full" required>
+                                        <x-label for="tipo_moneda" value="Tipo de Moneda" />
+                                        <x-input.select wire:model.live="tipo_moneda" class="w-full" required id="tipo_moneda" name="tipo_moneda">
                                             @foreach ($monedas as $moneda)
                                                 <option value="{{ $moneda->id }}" >{{ $moneda->abreviatura }}</option>
                                             @endforeach
@@ -61,23 +64,23 @@
 
                                 <div class="grid 2xl:grid-cols-5 md:grid-cols-2 sm:grid-cols-2 grid-cols-2 items-center gap-2 mx-2 mt-2" >
                                     <div>
-                                        <x-label for="registroFjsp.montotope" value="Monto Máximo" />
-                                        <x-input type="text" wire:model.live="registroFjsp.montotope" class="w-full text-end"  required />
+                                        <x-label for="monto_tope" value="Monto Máximo" />
+                                        <x-input type="text" wire:model.live="monto_tope" class="w-full text-end"  required id="monto_tope" name="monto_tope" />
                                     </div>
                                     <div>
-                                        <x-label for="registroFjsp.cuotas" value="Cant. Cuotas" />
-                                        <x-input class="w-full text-end" type="text"  wire:model.live="registroFjsp.cuotas"  required />
+                                        <x-label for="cuotas" value="Cant. Cuotas" />
+                                        <x-input class="w-full text-end" type="text"  wire:model.live="cuotas"  required id="cuotas" name="cuotas" />
                                     </div>
                                 </div>
 
                                 <div class="gap-2 mx-2 mt-2">
-                                    <x-label for="nombre" value="Observación" />
-                                    <textarea wire:model.live="registroFjsp.observacion" class="left border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50 rounded-md shadow-sm dark:bg-gray-200 w-full"></textarea>
+                                    <x-label for="observacion" value="Observación" />
+                                    <textarea wire:model.live="observacion" class="left border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50 rounded-md shadow-sm dark:bg-gray-200 w-full" id="observacion" name="observacion"></textarea>
                                 </div>
 
                                 <div class="flex justify-around items-center flex-col-reverse lg:flex-row mb-4 gap-2 mt-4">
                                     <button type="button"  wire:click="closeModal" class="rounded-md border border-solid border-red-500 text-red-500 hover:bg-red-500 hover:text-white lg:w-1/3 w-full h-10 text-lg">Cancelar</button>
-                                    <button type="button"  wire:click="create" class="rounded-md bg-blue-400 text-white hover:bg-blue-800 lg:w-1/3 w-full h-10 text-lg">{{ $postId ? 'Editar' : 'Crear' }}</button>
+                                    <button type="submit"   class="rounded-md bg-blue-400 text-white hover:bg-blue-800 lg:w-1/3 w-full h-10 text-lg">{{ $postId ? 'Editar' : 'Crear' }}</button>
                                 </div>
                         </form>
                     </div>
