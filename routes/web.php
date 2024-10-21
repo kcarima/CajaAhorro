@@ -52,7 +52,7 @@ Route::controller(ResetPasswordController::class)->middleware(['auth'])->group(f
 });
 
 Route::controller(SolicitudIngresoController::class)->group(function () {
-    Route::get('solicitud/ingreso', 'create')->name('solicitud.ingreso.create');
+    Route::get('solicitud/afiliación', 'create')->name('solicitud.ingreso.create');
     Route::post('solicitud/ingreso', 'store')->name('solicitud.ingreso.store');
 });
 

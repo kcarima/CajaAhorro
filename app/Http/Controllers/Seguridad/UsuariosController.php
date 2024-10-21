@@ -307,6 +307,6 @@ final class UsuariosController extends Controller
             return $this->errorMessage(message: $mensaje, code: 500);
         }
 
-        return $this->successMessage(message: 'Contraseña reestablecida correctamente.', data: ['redirect' => route('usuarios.index')]);
+        return $this->successMessage(message: 'Contraseña reestablecida correctamente.', data: ['redirect' => route('usuarios.nombre')]);
     }
 }

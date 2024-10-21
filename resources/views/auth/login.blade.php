@@ -57,14 +57,11 @@
                                 :value="old('cedula')" autocomplete="cedula" placeholder="{{ __('Cédula') }}" required
                                 autofocus />
                         </div>
-
                         <div class="mt-4">
                             <x-input id="password" class="block mt-1 w-full" type="password" name="password" required
                                 autocomplete="current-password" placeholder="{{ __('Password') }}" />
                         </div>
-
                         <x-captcha />
-
                         <div class="block mt-4">
                             <label for="remember_me" class="flex items-center">
                                 <x-checkbox id="remember_me" name="remember" />
@@ -73,19 +70,29 @@
                         </div>
 
                         <x-honeypot />
+                        <div class="lg:col-span-2">
+                            <div class="flex items-center justify-end flex-col-reverse gap-4 mt-6 ">
+                                @if (Route::has('password.request'))
+                                    <a class="underline text-sm text-gray-600 hover:text-gray-900"
+                                        href="{{ route('password.request') }}">
+                                        {{ __('Forgot your password?') }}
+                                    </a>
 
-                        <div class="flex items-center justify-end flex-col-reverse gap-4 mt-6">
-                            @if (Route::has('password.request'))
+                                @endif
+
+                                <x-button class="w-7/12">
+                                    {{ __('Log in') }}
+                                </x-button>
+
+                            </div>
+                            <div class="flex items-center justify-end flex-col-reverse gap-4 mt-6 ">
                                 <a class="underline text-sm text-gray-600 hover:text-gray-900"
-                                    href="{{ route('password.request') }}">
-                                    {{ __('Forgot your password?') }}
+                                    href="{{ route('solicitud.ingreso.create')}}">
+                                    {{ __('Afiliate') }}
                                 </a>
-                            @endif
-
-                            <x-button class="w-7/12">
-                                {{ __('Log in') }}
-                            </x-button>
+                            </div>
                         </div>
+
                     </form>
                 </article>
             </section>
