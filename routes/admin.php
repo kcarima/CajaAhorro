@@ -10,6 +10,8 @@ use App\Http\Controllers\SCA\MonedasController;
 use App\Http\Controllers\SCA\ParentescoController;
 use App\Http\Controllers\SCA\ReconversionController;
 use App\Http\Controllers\SCA\SolicitudIngresoController;
+use App\Http\Controllers\SCA\SolicitudPrestamoController;
+use App\Http\Controllers\SCA\SolicitudPrestamoJornadaController;
 use App\Http\Controllers\SCA\TipoPrestamoController;
 use App\Http\Controllers\SCA\TiposCuentasBancariasController;
 use App\Http\Controllers\Seguridad\BotsController;
@@ -130,6 +132,16 @@ Route::controller(ParentescoController::class)->group(function () {
 Route::controller(SolicitudIngresoController::class)->group(function () {
     Route::get('solicitudes/ingreso', 'index')->name('solicitudes.ingresos.index');
 });
+
+Route::controller(SolicitudPrestamoController::class)->group(function () {
+    Route::get('solicitud/prestamo', 'index')->name('solicitudes.prestamos.index');
+});
+
+Route::controller(SolicitudPrestamoJornadaController::class)->group(function () {
+    Route::get('jornada/solicitud/prestamo', 'index')->name('solicitud.prestamo.jornada.index');
+});
+
+
 
 Route::controller(SedeController::class)->group(function () {
     Route::get('sedes', 'index')->name('sedes.index');

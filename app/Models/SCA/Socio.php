@@ -3,6 +3,7 @@
 namespace App\Models\SCA;
 
 use App\Interfaces\SCA\Reconvertible;
+use App\Interfaces\SCA\SolicitudPrestamo;
 use App\Models\Seguridad\User;
 use App\Models\UNEG\Cargo;
 use App\Models\UNEG\Departamento;
@@ -11,6 +12,7 @@ use App\Models\UNEG\Sede;
 use App\Models\UNEG\Zona;
 use App\Models\UNEG\TipoTrabajador;
 use App\Traits\DataCedula;
+
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -19,6 +21,8 @@ use Illuminate\Support\Facades\DB;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\CausesActivity;
 use Spatie\Activitylog\Traits\LogsActivity;
+
+
 
 final class Socio extends Model implements Reconvertible
 {
@@ -146,6 +150,11 @@ final class Socio extends Model implements Reconvertible
     public function historico_fichas()
     {
         return $this->hasMany(HistoricoFichaSocio::class, 'cedula', 'cedula');
+    }
+
+    public function SolicitudPrestamo()
+    {
+        return $this->hasMany(SolicitudPrestamo::class, 'ficha', 'ficha');
     }
 
     public function documentos(): BelongsToMany

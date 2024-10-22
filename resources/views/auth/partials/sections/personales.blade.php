@@ -51,7 +51,7 @@
             <div>
                 <x-label for="telefono" value="Teléfono" />
                 <x-input class="w-full" type="tel" id="telefono" name="telefono" :value="$edit ? $usuario->socio->telefono : old('telefono')"
-                    autocomplete="telefono" placeholder="04249856631" required pattern="\d{11}" />
+                     autocomplete="telefono" placeholder="04249856631" required pattern="\d{11}" />
             </div>
             <div>
                 <x-label for="telefono_secundario" value="Teléfono secundario" />

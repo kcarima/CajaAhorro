@@ -25,4 +25,9 @@ final class TipoPrestamo extends Model
     {
         return $this->hasMany(Prestamo::class);
     }
+
+    public function scopeActivo($query)
+    {
+        return $query->where('habilitar', true);
+    }
 }

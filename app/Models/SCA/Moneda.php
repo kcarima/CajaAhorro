@@ -21,4 +21,9 @@ final class Moneda extends Model
     {
         return $query->where('es_activa', true);
     }
+
+    public function scopeActivo($query)
+    {
+        return $query->where('es_activa', true);
+    }
 }
