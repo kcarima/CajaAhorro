@@ -5,22 +5,13 @@
             @if ($edit)
                 <input type="hidden" name="user" value="{{ $usuario->uuid }}">
             @endif
-            <div class="grid grid-cols-1 lg:grid-cols-4 lg:gap-4 gap-2 mx-4">
-                <div class="lg:col-span-3 w-full">
+            <div class="grid grid-cols-1 lg:grid-cols-10 lg:gap-4 gap-2 mx-4">
+                <div class="lg:col-span-5 w-full">
                     <x-label for="nombres" value="Nombres y Apellidos" />
                     <x-input id="nombres" name="nombres" :value="$edit ? $usuario->socio->nombre : old('nombres')" class="w-full" type="text"
                         required autofocus autocomplete="nombres" minlength=3 />
                 </div>
-                <div>
-                    <x-label for="ficha" value="Ficha" />
-                    <x-input class="w-full" type="text" id="ficha" name="ficha" :value="$edit ? $usuario->socio->ficha : old('ficha')"
-                        required />
-                </div>
-            </div>
-        @endif
-        <div class="grid lg:grid-cols-5 lg:gap-4 grid-cols-1 gap-2 mx-4 mt-2">
-            @if ($user_is_admin)
-                <div class="lg:col-span-1 w-full">
+                <div class="lg:col-span-2 w-full">
                     <x-label for="cedula" value="{{ __('Cédula') }}" />
                     <div class="grid lg:grid-cols-9 grid-cols-4 gap-1">
                         <x-input.select class="lg:col-span-3 col-span-3" name="nacionalidad" id="nacionalidad">
@@ -42,12 +33,20 @@
                             autocomplete="cedula" />
                     </div>
                 </div>
-            @endif
-            <div>
-                <x-label for="fecha_nacimiento" value="Fecha de Nacimiento" />
-                <x-input class="w-full" type="date" id="fecha_nacimiento" name="fecha_nacimiento"
-                    :value="$edit ? $usuario->socio->fecha_nacimiento : old('fecha_nacimiento')" />
+                <div class="lg:col-span-2 w-full">
+                    <x-label for="fecha_nacimiento" value="Fecha de Nacimiento" />
+                    <x-input class="w-full" type="date" id="fecha_nacimiento" name="fecha_nacimiento"
+                        :value="$edit ? $usuario->socio->fecha_nacimiento : old('fecha_nacimiento')" />
+                </div>
+                <div>
+                    <x-label for="ficha" value="Ficha" />
+                    <x-input class="w-full" type="text" id="ficha" name="ficha" :value="$edit ? $usuario->socio->ficha : old('ficha')"
+                        required />
+                </div>
             </div>
+        @endif
+        <div class="grid lg:grid-cols-6 lg:gap-4 grid-cols-1 gap-2 mx-4 mt-2">
+
             <div>
                 <x-label for="telefono" value="Teléfono" />
                 <x-input class="w-full" type="tel" id="telefono" name="telefono" :value="$edit ? $usuario->socio->telefono : old('telefono')"
@@ -58,6 +57,11 @@
                 <x-input class="w-full" type="tel" id="telefono_secundario" name="telefono_secundario"
                     :value="$edit ? $usuario->socio->telefono_secundario : old('telefono_secundario')" placeholder="04249856631" pattern="\d{11}" />
             </div>
+            <div  class="lg:col-span-3 w-full">
+                <x-label for="email" value="{{ __('Email') }}" />
+                <x-input class="w-full" type="email" id="email" name="email" :value="$edit ? $usuario->email : old('email')"
+                    autocomplete="email" required />
+            </div>
             @if ($edit && $user_is_admin)
                 <div>
                     <x-label for="fecha_fallecido" value="Fecha Fallecido (si aplica)" />
@@ -65,14 +69,6 @@
                         :value="$edit ? $usuario->socio->fecha_fallecido : old('fecha_fallecido')" />
                 </div>
             @endif
-        </div>
-        <div class="grid lg:grid-cols-4 grid-cols-1 lg:gap-4 gap-2 mx-4 mt-2 mb-2">
-            <div  class="lg:col-span-2 w-full">
-                <x-label for="email" value="{{ __('Email') }}" />
-                <x-input class="w-full" type="email" id="email" name="email" :value="$edit ? $usuario->email : old('email')"
-                    autocomplete="email" required />
-            </div>
-
         </div>
     </div>
 </section>

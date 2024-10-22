@@ -24,17 +24,17 @@ final readonly class SocioService
 
         $codigo_cargo = Cargo::where('nombre', 'like', $data['cargo'])->value('codigo');
         $codigo_departamento = Departamento::where('nombre', 'like', $data['departamento'])->value('codigo');
-        $zona = null;
+        //$zona = zona::where();
 
-        if(isset($data['sede'])){
+       //if(isset($data['sede'])){
             $sede = DB::connection('uneg')->table('sedes')->where('id', $data['sede'])->value('id');
-        }else{
+       // }else{
             $sede = null;
-        }
+        //}
 
-        if(isset($data['zona'])){
+       // if(isset($data['zona'])){
             $zona = DB::connection('uneg')->table('zonas')->where('id', $data['zona'])->value('id');
-        }
+       // }
 
         $id_moneda = DB::connection('sca')->table('monedas')->where('es_default', true)->value('id');
 

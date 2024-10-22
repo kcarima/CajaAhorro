@@ -1,17 +1,25 @@
 <x-app-layout titulo="{{ $usuario->socio->nombre }}">
 
     <header class="mb-4">
-        <h1 class="text-center text-3xl">Datos Usuario</h1>
+        <h1 class="text-center text-3xl">Datos del Usuario</h1>
     </header>
-
-    <details class="mb-4">
-        <summary class="w-full text-white bg-blue-800 text-xl p-2">Datos Personales</summary>
+        <summary @if ($usuario->intentos_login == 3) class="w-full text-white bg-red-700 text-xl p-2" @else class="w-full text-white bg-blue-700 text-xl p-2" @endif
+ //       <summary class="w-full text-white bg-blue-800 text-xl p-2">Datos Personales</summary>
         <div class="text-lg w-full text-black py-2 border-2 border-solid border-gray-300">
-            <div class="grid grid-cols-1 lg:grid-cols-4 lg:gap-4 gap-2 mx-4">
-                <div class="lg:col-span-3 w-full">
+            <div class="grid grid-cols-1 lg:grid-cols-10 lg:gap-4 gap-2 mx-4">
+                <div class="lg:col-span-5 w-full">
                     <p class="block font-medium text-sm text-gray-700">Nombres y Apellidos</p>
                     <p class="border-gray-300 rounded-md shadow-sm py-2 px-3 bg-gray-200">{{ $usuario->socio->nombre }}
                     </p>
+                </div>
+                <div class="lg:col-span-2 w-full">
+                    <p class="block font-medium text-sm text-gray-700">Cédula</p>
+                    <p class="border-gray-300 rounded-md shadow-sm py-2 px-3 bg-gray-200">{{ $usuario->cedula }}</p>
+                </div>
+                <div class="lg:col-span-2 w-full">
+                    <p class="block font-medium text-sm text-gray-700">Fecha Nacimiento</p>
+                    <p class="border-gray-300 rounded-md shadow-sm py-2 px-3 bg-gray-200">
+                        {{ standart_date_format($usuario->socio->fecha_nacimiento ?? '2000-01-01') }}</p>
                 </div>
                 <div>
                     <p class="block font-medium text-sm text-gray-700">Ficha</p>
@@ -20,15 +28,6 @@
                 </div>
             </div>
             <div class="grid lg:grid-cols-5 lg:gap-4 grid-cols-1 gap-2 mx-4 mt-2">
-                <div>
-                    <p class="block font-medium text-sm text-gray-700">Cédula</p>
-                    <p class="border-gray-300 rounded-md shadow-sm py-2 px-3 bg-gray-200">{{ $usuario->cedula }}</p>
-                </div>
-                <div>
-                    <p class="block font-medium text-sm text-gray-700">Fecha Nacimiento</p>
-                    <p class="border-gray-300 rounded-md shadow-sm py-2 px-3 bg-gray-200">
-                        {{ standart_date_format($usuario->socio->fecha_nacimiento ?? '2000-01-01') }}</p>
-                </div>
                 <div>
                     <p class="block font-medium text-sm text-gray-700">Teléfono</p>
                     <p class="border-gray-300 rounded-md shadow-sm py-2 px-3 bg-gray-200">
@@ -39,6 +38,11 @@
                     <p class="border-gray-300 rounded-md shadow-sm py-2 px-3 bg-gray-200">
                         {{ $usuario->socio->telefono_secundario ?? 'N/D' }}</p>
                 </div>
+                <div class="lg:col-span-2 w-full">
+                    <p class="block font-medium text-sm text-gray-700">{{ __('Email') }}</p>
+                    <p class="border-gray-300 rounded-md shadow-sm py-2 px-3 bg-gray-200">{{ $usuario->email ?? 'N/D' }}
+                    </p>
+                </div>
                 @if ($usuario->socio->fecha_fallecido)
                     <div>
                         <p class="block font-medium text-sm text-gray-700">Fecha Fallecido</p>
@@ -47,15 +51,7 @@
                     </div>
                 @endif
             </div>
-            <div class="grid lg:grid-cols-4 grid-cols-1 lg:gap-4 gap-2 mx-4 mt-2 mb-2">
-                <div class="lg:col-span-2 w-full">
-                    <p class="block font-medium text-sm text-gray-700">{{ __('Email') }}</p>
-                    <p class="border-gray-300 rounded-md shadow-sm py-2 px-3 bg-gray-200">{{ $usuario->email ?? 'N/D' }}
-                    </p>
-                </div>
-            </div>
         </div>
-    </details>
 
     <details class="mb-4">
         <summary class="w-full text-white bg-blue-800 text-xl p-2">Datos UNEG</summary>
@@ -167,7 +163,7 @@
             <div class="grid lg:grid-cols-3 grid-cols-1 lg:gap-4 gap-3 mx-4">
                 <div>
                     <p class="block font-medium text-sm text-gray-700">Saldo Haberes</p>
-                    <p class="border-gray-300 rounded-md shadow-sm py-2 px-3 bg-gray-200">
+                    <p class="border-gray-300 rounded-md shadow-sm py-2 px-3 bg-gray-200 ">
                         {{ number_format($usuario->socio->saldo_haberes, 2, ',', '.') }} {{ $usuario->socio->moneda->abreviatura }}</p>
                 </div>
                 <div>
@@ -275,7 +271,7 @@
             @else
                 href={{ route('usuario.user.edit', $usuario->cedula) }} @endif
             class="flex items-center justify-center rounded-md bg-blue-400 text-white m-2 hover:bg-blue-800 lg:w-1/3 w-8/12 h-10 text-lg hover:cursor-pointer">
-            Editar
+            @if (auth()->user()->is_admin())  Opciones @else Editar @endif
         </a>
     </div>
 

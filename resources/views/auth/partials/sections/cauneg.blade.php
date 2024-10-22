@@ -1,7 +1,7 @@
 <section class="mb-4">
     <header class="w-full text-white bg-blue-800 text-center text-xl p-2">Datos CAUNEG</header>
     <div class="text-lg w-full text-black py-2 border-2 border-solid border-gray-300 mb-2">
-        <div class="grid lg:grid-cols-3 grid-cols-1 lg:gap-4 gap-3 mx-4">
+        <div class="grid lg:grid-cols-4 grid-cols-1 lg:gap-4 gap-3 mx-4">
             <div>
                 <x-label for="ingreso_cauneg" value="Fecha Ingreso" />
                 <x-input class="w-full fecha_today" min="1982-03-09" id="ingreso_cauneg"
@@ -27,6 +27,10 @@
                             {{ ucwords(strtolower($rol->value)) }}</option>
                     @endforeach
                 </x-input.select>
+            </div>
+            <div>
+                <x-label for="estatus" value="Estatus" />
+                <p class="border-gray-300 rounded-md shadow-sm py-2 px-3 bg-gray-200"> {{  $usuario->status }} </p>
             </div>
         </div>
         <div class="flex items-center gap-2 mb-2 lg:mb-0 mx-4 mt-2">

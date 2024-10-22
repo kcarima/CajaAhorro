@@ -70,7 +70,7 @@
                         </div>
 
                         <x-honeypot />
-                        <div class="lg:col-span-2">
+                        <div class="lg:grid-cols-3">
                             <div class="flex items-center justify-end flex-col-reverse gap-4 mt-6 ">
                                 @if (Route::has('password.request'))
                                     <a class="underline text-sm text-gray-600 hover:text-gray-900"

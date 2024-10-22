@@ -2,14 +2,13 @@
     <header class="w-full text-white bg-blue-800 text-center text-xl p-2">Datos UNEG</header>
     <div class="text-lg w-full text-black py-2 border-2 border-solid border-gray-300">
         <div class="grid lg:grid-cols-6 grid-cols-1 lg:gap-4 gap-2 mx-4">
-        <div class="grid lg:grid-cols-6 grid-cols-1 lg:gap-4 gap-2 mx-4">
             <div>
                 <x-label for="ingreso_uneg" value="Fecha Ingreso" />
                 <x-input class="w-full" type="date" id="ingreso_uneg" name="ingreso_uneg"
                     :value="$edit ? $usuario->socio->fecha_ingreso_uneg : old('ingreso_uneg')" min="1982-03-09" required />
             </div>
             <div class="lg:col-span-2 w-full">
-            <div class="lg:col-span-2 w-full">
+
                 <x-label for="cargo" value="Cargo" />
                 <x-input list="cargos" id="cargo" name="cargo" class="w-full" type="text"
                     value="{{ $edit ? $usuario->socio->cargo?->nombre : '' }}" required />
@@ -19,7 +18,6 @@
                     @endforeach
                 </datalist>
             </div>
-            <div class="lg:col-span-3 w-full">
             <div class="lg:col-span-3 w-full">
                 <x-label for="departamento" value="Departamento" />
                 <x-input list="departamentos" name="departamento" id="departamento" class="w-full"
@@ -32,7 +30,6 @@
                 </datalist>
             </div>
         </div>
-        <div class="grid lg:grid-cols-4 grid-cols-1 lg:gap-4 gap-2 mx-4 mt-2">
         <div class="grid lg:grid-cols-4 grid-cols-1 lg:gap-4 gap-2 mx-4 mt-2">
             <div>
                 <x-label for="tipo" value="Tipo de empleado" />
@@ -69,11 +66,6 @@
                                 selected @endif
                         @endif
                         >{{ $sede->nombre }}</option>
-                    <option value="{{ $sede->id }}"
-                        @if ($edit) @if ($usuario->socio->sede?->id == $sede->id)
-                                selected @endif
-                        @endif
-                        >{{ $sede->nombre }}</option>
                     @endforeach
                 </x-input.select>
             </div>
@@ -94,21 +86,9 @@
                                 selected @endif
                             @endif
                             >{{ $zona->nombre }}</option>
-                        <option value="{{ $zona->id }}"
-                            @if ($edit) @if ($usuario->socio->zona?->id == $zona->id)
-                                selected @endif
-                            @endif
-                            >{{ $zona->nombre }}</option>
                     @endforeach
                 </x-input.select>
             </div>
-            @if ($edit)
-                <div>
-                    <x-label for="retiro_uneg" value="Fecha de retiro (si aplica)" />
-                    <x-input class="w-full fecha_today" id="retiro_uneg" type="date" :value="$edit ? $usuario->socio->fecha_retiro_uneg : old('retiro_uneg')"
-                        name="retiro_uneg" />
-                </div>
-            @endif
             @if ($edit)
                 <div>
                     <x-label for="retiro_uneg" value="Fecha de retiro (si aplica)" />
