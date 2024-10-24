@@ -99,21 +99,5 @@
             </div>
         </div>
     @endif
-    <script>
-        function formatCurrency(input) {
-            input.addEventListener('input', (event) => {
-                // Remover cualquier formato de moneda existente
-                let value = event.target.value.replace(/[^0-9.]/g, '');
-
-                // Limitar a dos decimales
-                value = parseFloat(value).toFixed(2);
-
-                // Agregar el formato de moneda (opcional)
-                // value = new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'USD' }).format(value);
-
-                // Actualizar el valor del input
-                event.target.value = value;
-            });
-        }        
-    </script>
+    
 </div>

@@ -5,7 +5,12 @@
 'use strict';
 
 let menu, animate;
-
+function cambiar_color_over(celda){ 
+  celda.className="sombra_tilde";		
+} 
+function cambiar_color_out(celda){
+  celda.className="";		
+} 
 (function () {
   // Initialize menu
   //-----------------

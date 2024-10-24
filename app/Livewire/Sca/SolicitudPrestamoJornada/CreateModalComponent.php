@@ -20,11 +20,12 @@ use Illuminate\Http\Request;
 use Livewire\Component;
 use Livewire\Attributes\On;
 
+
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Validation\ValidationException;
 
 class CreateModalComponent extends Component
-{
+{    
     public $isOpen=0;
 
     public $tiposPrestamos = "";
@@ -120,7 +121,6 @@ class CreateModalComponent extends Component
         ]);
 
         if ( $this->postId == 0){
-
             $jornada = SolicitudPrestamoJornada::create([
                 'fecha_inicio' =>  $this->fecha_inicio,
                 'fecha_cierre' => $this->fecha_cierre,
@@ -138,61 +138,27 @@ class CreateModalComponent extends Component
             ]);
             
             session()->flash('message', 'Jornada creada exitosamente.');
-            $this->dispatchBrowserEvent('created'); // Disparar un evento para actualizar la lista
-        }else{            
+            $this->dispatch('msnJsp', ['mensaje'=>'Jornada creada exitosamente']);
+            //$this->dispatchBrowserEvent('msnJsp',['msn' => 'Jornada Creada correctamente']); // Disparar un evento para actualizar la lista
+        }else{
+            $query = SolicitudPrestamoJornada::find($this->postId)->with('JornadaDetalle')->get();
+            
+            $query[0]->fecha_inicio =  $this->fecha_inicio;
+            $query[0]->fecha_cierre = $this->fecha_cierre;
+            $query[0]->observacion =  $this->observacion;
+            $query[0]->nombre = $this->descripcion;
+            $query[0]->update();
+
+            $query[0]->JornadaDetalle[0]->tipo_prestamo_id = $this->tipo_prestamo_id;
+            $query[0]->JornadaDetalle[0]->moneda_id = $this->tipo_moneda;
+            $query[0]->JornadaDetalle[0]->monto_tope = $this->monto_tope;
+            $query[0]->JornadaDetalle[0]->cant_cuotas = $this->cuotas;
+            $query[0]->JornadaDetalle[0]->update();
+
             session()->flash('message', 'Jornada Modificada exitosamente.');
-            $this->dispatchBrowserEvent('saved'); // Disparar un evento para actualizar la lista
+            $this->dispatch('msnJsp', ['mensaje'=>'Jornada Modificada correctamente']);            
         }
 
         $this->closeModal();
     }
-
-
-    /*public function create(Request $request){
-        request()->validate([
-            'fecha_inicio' => 'required|date',
-            'fecha_cierre' => 'required|date|after:fecha_inicio',
-            'descripcion' => ['required'],
-            'tipo_prestamo' => ['required'],
-            'tipo_moneda'=> ['required'],
-            'monto_tope' => ['required'],
-            'cuotas' => ['required'],
-            'observacion' => ['nullable', 'max:255']
-        ]);
-
-        DB::beginTransaction();
-
-        try {
-            $jornada = SolicitudPrestamoJornada::create([
-                'fecha_inicio' => $request->fecha_inicio,
-                'fecha_cierre' => $request->fecha_cierre,
-                'observacion' => $request->observacion,
-                'nombre' => $request->descripcion,
-                'status' => 0
-            ]);
-
-            SolicitudPrestamoJornadaDetalle::create([
-                'jornada_solicitud_prestamo_id' => $jornada->id,
-                'tipo_prestamo_id' => $request->tipo_prestamo,
-                'moneda_id' => $request->tipo_moneda,
-                'monto_tope' => $request->monto_tope,
-                'cant_cuotas' => $request->cuotas
-            ]);
-
-            DB::commit();
-        } catch (ModelNotFoundException $e) {
-            DB::rollback();
-            return back()->withErrors('El tipo de préstamo o moneda no existe.');
-        } /*catch (ValidationException $e) {
-            DB::rollback();
-            return back()->withErrors($e->errors());
-        } catch (\Exception $e) {
-            DB::rollback();
-            // Registrar la excepción en un log
-            Log::error('Error al crear la jornada de préstamo: ' . $e->getMessage());
-            return back()->withErrors('Error inesperado al crear la Jornada de Préstamo');
-        }*/
-
-        /*return to_route('tipo-prestamo.index')->with('success', 'Jornada de Prestamo creada satisfactoriamente');
-    }*/
 }
