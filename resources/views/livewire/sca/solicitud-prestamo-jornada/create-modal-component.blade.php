@@ -1,4 +1,4 @@
-<div>    
+<div>
     <div class="w-full flex justify-end">
         <button wire:click="formSp" class="flex gap-2 rounded-md bg-white shadow-md p-2 items-center mb-4 hover:shadow-lg hover:cursor-pointer" style="font-size: 18 !important;">
             <b class="text-blue-700">+</b><span class="text-gray-700">Agregar</span>
@@ -9,7 +9,7 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content text-bg-dark" >
                     <div class="modal-header">
-                        <h3 class="text-xl text-center w-full font-bold text-gray-900">{{ $postId ? 'Editar' : 'Crear' }} Jornada Solicitud Prestamo ({{$tipo_moneda}})</h3>
+                        <h3 class="text-xl text-center w-full font-bold text-gray-900">{{ $postId ? 'Editar' : 'Crear' }} Jornada Solicitud Prestamo ({{$postId}} - {{$postIdDet}})</h3>
                     </div>
                     <div class="modal-body" style="padding-top:0rem !important;padding-left: 1rem !important;padding-right: 1rem !important;">
                         <form wire:submit.prevent="store">
@@ -55,9 +55,9 @@
                                     </div>
                                     <div>
                                         <x-label for="tipo_moneda" value="Tipo de Moneda" />
-                                        <x-input.select wire:model.live="tipo_moneda" class="w-full" required id="tipo_moneda" name="tipo_moneda">                                            
+                                        <x-input.select wire:model.live="tipo_moneda" class="w-full" required id="tipo_moneda" name="tipo_moneda">
                                             <option value="-1">--Seleccione--</option>
-                                            @foreach ($monedas as $moneda)                                                
+                                            @foreach ($monedas as $moneda)
                                                 <option value="{{ $moneda->id }}" {{ $postId ? $tipo_moneda == $moneda->id ? 'selected' : '' : '' }}>{{ $moneda->abreviatura }}</option>
                                             @endforeach
                                         </x-input.select>
@@ -70,14 +70,14 @@
                                 <div class="grid 2xl:grid-cols-5 md:grid-cols-2 sm:grid-cols-2 grid-cols-2 items-center gap-2 mx-2 mt-2" >
                                     <div>
                                         <x-label for="monto_tope" value="Monto Máximo" />
-                                        <x-input type="text" wire:model.live="monto_tope" class="w-full text-end"  required id="monto_tope" name="monto_tope" oninput="formatCurrency(this)"/>
+                                        <x-input type="number" value="0,0" step="any" pattern="[0-9,.]+"  wire:model.live="monto_tope" class="w-full text-end" data-mask="#.##0,00" data-mask-reverse="true"  required id="monto_tope" name="monto_tope" />
                                         @error('monto_tope')
                                             <span class="text-red-500">{{ $message }}</span>
                                         @enderror
                                     </div>
                                     <div>
                                         <x-label for="cuotas" value="Cant. Cuotas" />
-                                        <x-input class="w-full text-end" type="text"  wire:model.live="cuotas"  required id="cuotas" name="cuotas" />
+                                        <x-input class="w-full text-end" type="number"  value="0,0" step="any" pattern="[0-9]+" wire:model.live="cuotas"  required id="cuotas" name="cuotas" />
                                         @error('cuotas')
                                             <span class="text-red-500">{{ $message }}</span>
                                         @enderror
@@ -91,7 +91,7 @@
 
                                 <div class="flex justify-around items-center flex-col-reverse lg:flex-row mb-4 gap-2 mt-4">
                                     <button type="button"  wire:click="closeModal" class="rounded-md border border-solid border-red-500 text-red-500 hover:bg-red-500 hover:text-white lg:w-1/3 w-full h-10 text-lg">Cancelar</button>
-                                    <button type="submit"   class="rounded-md bg-blue-400 text-white hover:bg-blue-800 lg:w-1/3 w-full h-10 text-lg">{{ $postId ? 'Editar' : 'Crear' }}</button>
+                                    <button type="submit"  id="myButton"  class="rounded-md bg-blue-400 text-white hover:bg-blue-800 lg:w-1/3 w-full h-10 text-lg">{{ $postId ? 'Editar' : 'Crear' }}</button>
                                 </div>
                         </form>
                     </div>
@@ -99,5 +99,22 @@
             </div>
         </div>
     @endif
-    
+    <script src="{{ asset('js/jquery.min.js') }}"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script>
+
+
+        $(document).ready(function() {
+            $('#myButton').click(function() {
+                //Livewire.emit('myEvent', 'someData');
+                alert('Form submission prevented!2');
+            });
+
+            $('form').submit(function(event) {
+                event.preventDefault();
+                // Your custom logic here, e.g.,
+                alert('Form submission prevented!');
+            });
+        });
+    </script>
 </div>

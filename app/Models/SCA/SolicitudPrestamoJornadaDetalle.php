@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\sca;
+namespace App\Models\SCA;
 
 use App\Models\SCA\SolicitudPrestamoJornada;
 use App\Models\SCA\SolicitudPrestamo;

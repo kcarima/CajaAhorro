@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\SCA\SolicitudIngresoController;
-//use App\Http\livewire\Sca\SolicitudPrestamoController;
+use App\Http\Controllers\SCA\SolicitudPrestamoJornadaController;
 use App\Http\Controllers\Seguridad\ResetPasswordController;
 use App\Http\Controllers\Seguridad\UsuariosController;
 use Illuminate\Support\Facades\Route;

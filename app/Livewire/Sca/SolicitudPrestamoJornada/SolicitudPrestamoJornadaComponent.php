@@ -16,7 +16,7 @@ class SolicitudPrestamoJornadaComponent extends Component
 {
     use WithPagination;
     public $jornadas;
-    
+
     public $mensaje;
 
     public function moun(){
@@ -31,7 +31,17 @@ class SolicitudPrestamoJornadaComponent extends Component
     }
     public function render()
     {
-        $this->jornadas = SolicitudPrestamoJornada::all();
+        /*$query = SolicitudPrestamoJornada::query()
+                 ->with('JornadaDetalle')->select('id', 'jornada_solicitud_prestamo_id', 'tipo_prestamo_id', 'moneda_id', 'monto_tope', 'cant_cuotas', 'status')
+                 ->orderBy('fecha_cierre','DESC')->paginate(15);*/
+
+        //$this->jornadas = SolicitudPrestamoJornada::orderBy('fecha_cierre', 'DESC')->get();
+
+        $this->jornadas = SolicitudPrestamoJornada::query()
+                            ->wherehas('JornadaDetalle', function($query){
+                                $query->select('id', 'jornada_solicitud_prestamo_id', 'tipo_prestamo_id', 'moneda_id', 'monto_tope', 'cant_cuotas', 'status');
+                             })
+                            ->orderBy('fecha_cierre','DESC')->get();
         return view('livewire.sca.solicitud-prestamo-jornada.solicitud-prestamo-jornada-component', ['jornadas' => $this->jornadas]);
     }
 
@@ -49,9 +59,9 @@ class SolicitudPrestamoJornadaComponent extends Component
                 $query[0]->JornadaDetalle[0]->delete();
                 $query[0]->delete();
                 session()->flash('success',  'Registro eliminado correctamente');
-            }else{                
+            }else{
                 session()->flash('error',  'Error: Existen solicitudes asociadas!');
-            }   
+            }
             // Aquí puedes agregar lógica adicional, como mostrar un mensaje de éxito o redirigir a otra página
         } else {
             // Manejar el caso en el que no se encontró el registro
@@ -64,9 +74,9 @@ class SolicitudPrestamoJornadaComponent extends Component
     {
         // Aquí puedes utilizar los valores de $id y $nombre
         $this->mensaje=$mensaje['mensaje'];
-        
+
         // Actualizar la vista
         session()->flash('success',  $this->mensaje);
-        $this->render();        
-    }        
+        $this->render();
+    }
 }

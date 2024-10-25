@@ -25,13 +25,14 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Validation\ValidationException;
 
 class CreateModalComponent extends Component
-{    
+{
     public $isOpen=0;
 
     public $tiposPrestamos = "";
     public $monedas = "";
 
     public $postId=0;
+    public $postIdDet=0;
 
     public $fecha_inicio;
     public $fecha_cierre;
@@ -93,6 +94,9 @@ class CreateModalComponent extends Component
         $this->fecha_cierre=$query[0]->fecha_cierre;
         $this->descripcion=$query[0]->nombre;
         $this->observacion=$query[0]->observacion;
+
+        $this->postIdDet = $query[0]->JornadaDetalle[0]->id;
+
         $this->tipo_prestamo_id=$query[0]->JornadaDetalle[0]->tipo_prestamo_id;
         $this->tipo_moneda=$query[0]->JornadaDetalle[0]->moneda_id;
         $this->monto_tope=$query[0]->JornadaDetalle[0]->monto_tope;
@@ -107,7 +111,6 @@ class CreateModalComponent extends Component
             'descripcion' => ['required'],
             'tipo_prestamo_id' => ['required', 'exists:sca.tipos_prestamos,id', 'required'],
             'tipo_moneda'=> ['required', 'exists:sca.monedas,id', 'required'],
-            'monto_tope' => ['required', 'integer', 'min:1'],
             'cuotas' => ['required', 'integer', 'min:1'],
             'observacion' => ['nullable', 'max:255']
         ], [
@@ -136,27 +139,29 @@ class CreateModalComponent extends Component
                 'monto_tope' => $this->monto_tope,
                 'cant_cuotas' => $this->cuotas
             ]);
-            
+
             session()->flash('message', 'Jornada creada exitosamente.');
             $this->dispatch('msnJsp', ['mensaje'=>'Jornada creada exitosamente']);
             //$this->dispatchBrowserEvent('msnJsp',['msn' => 'Jornada Creada correctamente']); // Disparar un evento para actualizar la lista
         }else{
-            $query = SolicitudPrestamoJornada::find($this->postId)->with('JornadaDetalle')->get();
-            
-            $query[0]->fecha_inicio =  $this->fecha_inicio;
-            $query[0]->fecha_cierre = $this->fecha_cierre;
-            $query[0]->observacion =  $this->observacion;
-            $query[0]->nombre = $this->descripcion;
-            $query[0]->update();
+            $query = SolicitudPrestamoJornada::find($this->postId);
 
-            $query[0]->JornadaDetalle[0]->tipo_prestamo_id = $this->tipo_prestamo_id;
-            $query[0]->JornadaDetalle[0]->moneda_id = $this->tipo_moneda;
-            $query[0]->JornadaDetalle[0]->monto_tope = $this->monto_tope;
-            $query[0]->JornadaDetalle[0]->cant_cuotas = $this->cuotas;
-            $query[0]->JornadaDetalle[0]->update();
+            $query->fecha_inicio =  $this->fecha_inicio;
+            $query->fecha_cierre = $this->fecha_cierre;
+            $query->observacion =  $this->observacion;
+            $query->nombre = $this->descripcion;
+            $query->update();
 
-            session()->flash('message', 'Jornada Modificada exitosamente. id: '.$this->postId.', detalle: '. $query[0]->JornadaDetalle[0]->id);
-            $this->dispatch('msnJsp', ['mensaje'=>'Jornada Modificada correctamente. id: '.$this->postId.', detalle: '. $query[0]->JornadaDetalle[0]->id]);            
+            $query = SolicitudPrestamoJornadaDetalle::find($this->postIdDet);
+
+            $query->tipo_prestamo_id = $this->tipo_prestamo_id;
+            $query->moneda_id = $this->tipo_moneda;
+            $query->monto_tope = $this->monto_tope;
+            $query->cant_cuotas = $this->cuotas;
+            $query->update();
+
+            session()->flash('message', 'Jornada Modificada exitosamente. id: '.$this->postId.', detalle: '. $this->postIdDet);
+            $this->dispatch('msnJsp', ['mensaje'=>'Jornada Modificada correctamente. id: '.$this->postId.', detalle: '. $this->postIdDet]);
         }
 
         $this->closeModal();
