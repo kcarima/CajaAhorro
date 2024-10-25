@@ -55,7 +55,7 @@ final class Socio extends Model implements Reconvertible
         'es_fiador',
         'telefono',
         'telefono_secundario',
-        'fecha_nacimiento',
+        'fecha_nac',
         'fecha_fallecido',
 
     ];

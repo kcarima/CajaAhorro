@@ -44,7 +44,7 @@ final readonly class SocioService
             'nombre' => $data['nombres'],
             'ficha' => $data['ficha'],
             'cedula' => $cedula,
-            'fecha_nacimiento' => $data['fecha_nacimiento'],
+            'fecha_nac' => $data['fecha_nacimiento'],
             'fecha_ingreso_uneg' => $data['ingreso_uneg'],
             'fecha_retiro_uneg' => $data['retiro_uneg'] ?? null,
             'fecha_ingreso_cauneg' => $data['ingreso_cauneg'],
@@ -153,7 +153,7 @@ final readonly class SocioService
 
         $socio->fill([
             'cedula' => get_cedula(nacionalidad: $data['nacionalidad'], numero: $data['cedula']),
-            'fecha_nacimiento' => $data['fecha_nacimiento'],
+            'fecha_nac' => $data['fecha_nacimiento'],
             'fecha_ingreso_uneg' => $data['ingreso_uneg'],
             'fecha_retiro_uneg' => $data['retiro_uneg'],
             'fecha_ingreso_cauneg' => $data['ingreso_cauneg'],

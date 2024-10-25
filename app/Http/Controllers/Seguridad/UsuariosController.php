@@ -265,12 +265,13 @@ final class UsuariosController extends Controller
 
         try {
 
-            $user->email = $request->email;
+            $user->email = $request->email;            
             $user->save();
 
             $socio->fill([
                 'telefono' => $request->telefono,
                 'telefono_secundario' => $request->telefono_secundario,
+                'fecha_nac' => $request->fecha_nacimiento
             ]);
 
             $socio->save();

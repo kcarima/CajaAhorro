@@ -36,7 +36,7 @@
                 <div class="lg:col-span-2 w-full">
                     <x-label for="fecha_nacimiento" value="Fecha de Nacimiento" />
                     <x-input class="w-full" type="date" id="fecha_nacimiento" name="fecha_nacimiento"
-                        :value="$edit ? $usuario->socio->fecha_nacimiento : old('fecha_nacimiento')" />
+                        :value="$edit ? $usuario->socio->fecha_nac : old('fecha_nacimiento')" />
                 </div>
                 <div>
                     <x-label for="ficha" value="Ficha" />

@@ -19,7 +19,7 @@
                 <div class="lg:col-span-2 w-full">
                     <p class="block font-medium text-sm text-gray-700">Fecha Nacimiento</p>
                     <p class="border-gray-300 rounded-md shadow-sm py-2 px-3 bg-gray-200">
-                        {{ standart_date_format($usuario->socio->fecha_nacimiento ?? '2000-01-01') }}</p>
+                        {{ standart_date_format($usuario->socio->fecha_nac ?? '2000-01-01') }}</p>                        
                 </div>
                 <div>
                     <p class="block font-medium text-sm text-gray-700">Ficha</p>
