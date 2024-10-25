@@ -155,8 +155,8 @@ class CreateModalComponent extends Component
             $query[0]->JornadaDetalle[0]->cant_cuotas = $this->cuotas;
             $query[0]->JornadaDetalle[0]->update();
 
-            session()->flash('message', 'Jornada Modificada exitosamente.');
-            $this->dispatch('msnJsp', ['mensaje'=>'Jornada Modificada correctamente']);            
+            session()->flash('message', 'Jornada Modificada exitosamente. id: '.$this->postId.', detalle: '. $query[0]->JornadaDetalle[0]->id);
+            $this->dispatch('msnJsp', ['mensaje'=>'Jornada Modificada correctamente. id: '.$this->postId.', detalle: '. $query[0]->JornadaDetalle[0]->id]);            
         }
 
         $this->closeModal();
