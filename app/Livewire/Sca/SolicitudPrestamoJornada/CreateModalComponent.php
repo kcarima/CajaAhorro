@@ -3,36 +3,46 @@
 namespace App\Livewire\Sca\SolicitudPrestamoJornada;
 
 use App\Models\SCA\SolicitudPrestamoJornada;
+use App\Models\SCA\SolicitudPrestamoJornadaDetalle;
 use App\Models\SCA\SolicitudPrestamo;
 
 use App\Models\SCA\TipoPrestamo;
 use App\Models\SCA\Moneda;
 
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+
+use Illuminate\Http\Request;
+
 //use App\Http\Requests\SCA\JonadaSolicitudPrestamo\StoreJornadaSolicitudPrestamoRequest;
+//use App\Http\Requests\API\SCA\StoreDocumentoRequest;
 
 use Livewire\Component;
 use Livewire\Attributes\On;
 
+
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Validation\ValidationException;
+
 class CreateModalComponent extends Component
-{
+{    
     public $isOpen=0;
 
     public $tiposPrestamos = "";
     public $monedas = "";
 
     public $postId=0;
-    public $idCreate=0;
 
-    public $registroFjsp = [
-        'fechaInicio' => '',
-        'fechaFin' => '',
-        'descripcion' => '',
-        'observacion' => '',
-        'tipoPrestamo' => '',
-        'tipoMoneda' => '',
-        'montotope' => 0.00,
-        'cuotas' => 0.00
-    ];
+    public $fecha_inicio;
+    public $fecha_cierre;
+    public $descripcion;
+    public $observacion;
+    public $tipo_prestamo_id;
+    public $tipo_moneda;
+    public $monto_tope;
+    public $cuotas;
+
+
 
     public function formSp(){
         $this->openModal();
@@ -44,26 +54,26 @@ class CreateModalComponent extends Component
 
     public function closeModal(){
         $this->postId=0;
-        $this->registroFjsp['fechaInicio']=date('Y-m-d');
-        $this->registroFjsp['fechaFin']=date('Y-m-d');
-        $this->registroFjsp['descripcion']='';
-        $this->registroFjsp['observacion']='';
-        $this->registroFjsp['tipoPrestamo']='';
-        $this->registroFjsp['tipoMoneda']='';
-        $this->registroFjsp['montotope']=0.00;
-        $this->registroFjsp['cuotas']=0.00;
+        $this->fecha_inicio=date('Y-m-d');
+        $this->fecha_cierre=date('Y-m-d');
+        $this->descripcion='';
+        $this->observacion='';
+        $this->tipo_prestamo_id='';
+        $this->tipo_moneda='';
+        $this->monto_tope=0.00;
+        $this->cuotas=0.00;
         $this->isOpen=false;
     }
 
     public function mount(){
-        $this->registroFjsp['fechaInicio']=date('Y-m-d');
-        $this->registroFjsp['fechaFin']=date('Y-m-d');
-        $this->registroFjsp['descripcion']='';
-        $this->registroFjsp['observacion']='';
-        $this->registroFjsp['tipoPrestamo']='';
-        $this->registroFjsp['tipoMoneda']='';
-        $this->registroFjsp['montotope']=0.00;
-        $this->registroFjsp['cuotas']=0.00;
+        $this->fecha_inicio=date('Y-m-d');
+        $this->fecha_cierre=date('Y-m-d');
+        $this->descripcion='';
+        $this->observacion='';
+        $this->tipo_prestamo_id='';
+        $this->tipo_moneda='';
+        $this->monto_tope=0.00;
+        $this->cuotas=0.00;
     }
 
     public function render(){
@@ -75,46 +85,80 @@ class CreateModalComponent extends Component
                                                                                     ]);
     }
 
-    #[On('click-editarSp')]
+    #[On('click-editarJSp')]
     public function edit($id){
-        $post = SolicitudPrestamo::findOrFail($id);
+        $query = SolicitudPrestamoJornada::query()->where('id','=',$id)->with('JornadaDetalle')->get();
         $this->postId = $id;
-        $this->fs_fecha = $post->fecha_solicitud;
-        $this->fs_tipo_prestamo=$post->tipo_prestamo;
-        $this->fs_moneda=$post->moneda;
+        $this->fecha_inicio=$query[0]->fecha_inicio;
+        $this->fecha_cierre=$query[0]->fecha_cierre;
+        $this->descripcion=$query[0]->nombre;
+        $this->observacion=$query[0]->observacion;
+        $this->tipo_prestamo_id=$query[0]->JornadaDetalle[0]->tipo_prestamo_id;
+        $this->tipo_moneda=$query[0]->JornadaDetalle[0]->moneda_id;
+        $this->monto_tope=$query[0]->JornadaDetalle[0]->monto_tope;
+        $this->cuotas=$query[0]->JornadaDetalle[0]->cant_cuotas;
         $this->openModal();
     }
 
-    public function create(){
-        try {
-            $this->idCreate = SolicitudPrestamoJornada::create(
-                [
-                    'fecha_inicio' => $this->registroFjsp['fechaInicio'],
-                    'fecha_cierre' => $this->registroFjsp['fechaFin'],
-                    'observacion' => $this->registroFjsp['observacion'],
-                    'nombre' => $this->registroFjsp['descripcion'],
-                    'status' => 0
-                ]
-            );
-        } catch (Exception $e) {
-            return back()->withErrors('Error al crear Jornada de prestamo');
+    public function store(Request $request){
+        $this->validate([
+            'fecha_inicio' => 'required|date',
+            'fecha_cierre' => 'required|date|after:fecha_inicio',
+            'descripcion' => ['required'],
+            'tipo_prestamo_id' => ['required', 'exists:sca.tipos_prestamos,id', 'required'],
+            'tipo_moneda'=> ['required', 'exists:sca.monedas,id', 'required'],
+            'monto_tope' => ['required', 'integer', 'min:1'],
+            'cuotas' => ['required', 'integer', 'min:1'],
+            'observacion' => ['nullable', 'max:255']
+        ], [
+            'fecha_inicio.required' => 'Debe indicar Fecha de Inicio.',
+            'fecha_cierre.required' => 'Debe indicar Fecha de Culminación.',
+            'descripcion.required' => 'Debe indicar Descripción.',
+            'tipo_prestamo_id.required' => 'Tipo de Prestamo Inválido.',
+            'tipo_moneda.required' => 'Tipo de Moneda Inválida.',
+            'monto_tope.required' => 'Debe indicar Monto maximo y mayor que 0.',
+            'cuotas.required' => 'Debe indicar Números de Cuotas y mayor que 0.',
+        ]);
+
+        if ( $this->postId == 0){
+            $jornada = SolicitudPrestamoJornada::create([
+                'fecha_inicio' =>  $this->fecha_inicio,
+                'fecha_cierre' => $this->fecha_cierre,
+                'observacion' =>  $this->observacion,
+                'nombre' => $this->descripcion,
+                'status' => 0
+            ]);
+
+            SolicitudPrestamoJornadaDetalle::create([
+                'jornada_solicitud_prestamo_id' => $jornada->id,
+                'tipo_prestamo_id' => $this->tipo_prestamo_id,
+                'moneda_id' => $this->tipo_moneda,
+                'monto_tope' => $this->monto_tope,
+                'cant_cuotas' => $this->cuotas
+            ]);
+            
+            session()->flash('message', 'Jornada creada exitosamente.');
+            $this->dispatch('msnJsp', ['mensaje'=>'Jornada creada exitosamente']);
+            //$this->dispatchBrowserEvent('msnJsp',['msn' => 'Jornada Creada correctamente']); // Disparar un evento para actualizar la lista
+        }else{
+            $query = SolicitudPrestamoJornada::find($this->postId)->with('JornadaDetalle')->get();
+            
+            $query[0]->fecha_inicio =  $this->fecha_inicio;
+            $query[0]->fecha_cierre = $this->fecha_cierre;
+            $query[0]->observacion =  $this->observacion;
+            $query[0]->nombre = $this->descripcion;
+            $query[0]->update();
+
+            $query[0]->JornadaDetalle[0]->tipo_prestamo_id = $this->tipo_prestamo_id;
+            $query[0]->JornadaDetalle[0]->moneda_id = $this->tipo_moneda;
+            $query[0]->JornadaDetalle[0]->monto_tope = $this->monto_tope;
+            $query[0]->JornadaDetalle[0]->cant_cuotas = $this->cuotas;
+            $query[0]->JornadaDetalle[0]->update();
+
+            session()->flash('message', 'Jornada Modificada exitosamente. id: '.$this->postId.', detalle: '. $query[0]->JornadaDetalle[0]->id);
+            $this->dispatch('msnJsp', ['mensaje'=>'Jornada Modificada correctamente. id: '.$this->postId.', detalle: '. $query[0]->JornadaDetalle[0]->id]);            
         }
 
-        try {
-            $this->idCreate = SolicitudPrestamoJornada::create(
-                [
-                    'fecha_inicio' => $this->registroFjsp['fechaInicio'],
-                    'fecha_cierre' => $this->registroFjsp['fechaFin'],
-                    'observacion' => $this->registroFjsp['observacion'],
-                    'nombre' => $this->registroFjsp['descripcion'],
-                    'status' => 0
-                ]
-            );
-        } catch (Exception $e) {
-            return back()->withErrors('Error al crear Jornada de prestamo');
-        }
-
-
-        return to_route('tipo-prestamo.index')->with('success', 'Jornada de Prestamo creado satisfactoriamente');
+        $this->closeModal();
     }
 }

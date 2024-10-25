@@ -18,5 +18,8 @@
         "tailwindcss": "^3.4.4",
         "vite": "^5.3.1"
     },
-    "type": "module"
+    "type": "module",
+    "dependencies": {
+        "bootstrap4-toggle": "^3.6.1"
+    }
 }

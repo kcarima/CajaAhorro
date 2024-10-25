@@ -21,8 +21,8 @@ class SolicitudPrestamoJornada extends Model
         'status'
     ];
 
-    public function SolicitudPrestamoJornadaDetalle()
+    public function JornadaDetalle()
     {
-        return $this->hasMany(SolicitudPrestamoJornadaDetalle::class);
+        return $this->hasMany(SolicitudPrestamoJornadaDetalle::class, 'jornada_solicitud_prestamo_id', 'id');
     }
 }

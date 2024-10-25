@@ -2,6 +2,7 @@
 
 namespace App\Models\SCA;
 
+use App\Models\SCA\SolicitudPrestamoJornadaDetalle;
 use App\Models\SCA\Socio;
 use App\Models\SCA\TipoPrestamo;
 use App\Models\SCA\Moneda;
@@ -40,5 +41,10 @@ class SolicitudPrestamo extends Model
     public function Moneda()
     {
         return $this->belongsTo(Moneda::class, 'moneda_id', 'id');
+    }
+
+    public function JornadaDetalle()
+    {
+        return $this->belongsTo(SolicitudPrestamoJornadaDetalle::class, 'jornada_solicitud_prestamo_detalle_id', 'id');
     }
 }
