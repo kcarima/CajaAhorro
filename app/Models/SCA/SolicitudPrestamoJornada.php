@@ -25,4 +25,9 @@ class SolicitudPrestamoJornada extends Model
     {
         return $this->hasMany(SolicitudPrestamoJornadaDetalle::class, 'jornada_solicitud_prestamo_id', 'id');
     }
+
+    public function scopeActivo($query)
+    {
+        return $query->where('status', '1');
+    }
 }

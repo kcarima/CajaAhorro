@@ -100,21 +100,5 @@
         </div>
     @endif
     <script src="{{ asset('js/jquery.min.js') }}"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-    <script>
-
-
-        $(document).ready(function() {
-            $('#myButton').click(function() {
-                //Livewire.emit('myEvent', 'someData');
-                alert('Form submission prevented!2');
-            });
-
-            $('form').submit(function(event) {
-                event.preventDefault();
-                // Your custom logic here, e.g.,
-                alert('Form submission prevented!');
-            });
-        });
-    </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>    
 </div>

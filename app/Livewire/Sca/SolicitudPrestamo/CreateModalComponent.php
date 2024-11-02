@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Sca\SolicitudPrestamo;
 
+use App\Models\SCA\SolicitudPrestamoJornada;
 use App\Models\SCA\SolicitudPrestamo;
 use App\Models\SCA\TipoPrestamo;
 use App\Models\SCA\Moneda;
@@ -15,6 +16,7 @@ class CreateModalComponent extends Component
 
     public $tiposPrestamos = "";
     public $monedas = "";
+    public $jornada;
 
     public $postId=0;
     public $fs_fecha='';
@@ -46,7 +48,13 @@ class CreateModalComponent extends Component
     public function render(){
         $this->tiposPrestamos = TipoPrestamo::query()->orderBy('nombre')->get();
         $this->monedas = Moneda::query()->orderBy('abreviatura')->get();
-        return view('livewire.sca.solicitud-prestamo.create-modal-component', ['tiposPrestamos' => $this->tiposPrestamos,'monedas' => $this->monedas]);
+        $this->jornada = SolicitudPrestamoJornada::Activo()
+                                                   ->with('jornadaDetalle.TipoPrestamo')
+                                                   ->with('jornadaDetalle.Moneda')
+                                                   ->get();
+        return view('livewire.sca.solicitud-prestamo.create-modal-component', ['tiposPrestamos' => $this->tiposPrestamos,
+                                                                               'monedas' => $this->monedas,
+                                                                               'jornada' => $this->jornada]);
     }
 
     #[On('click-editarSp')]

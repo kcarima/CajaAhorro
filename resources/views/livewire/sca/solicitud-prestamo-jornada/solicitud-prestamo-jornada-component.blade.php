@@ -52,6 +52,11 @@
                     </button>
                     <div class="dropdown-menu">
                         <a class="dropdown-item" style="cursor:pointer !important;"><i class="bx bx-search-alt me-1"></i>Detalle</a>
+                        @if ($jornada->status == 0)
+                            <a class="dropdown-item" wire:click="activarJSp({{$jornada->id}})" style="cursor:pointer !important;"><i class="bx bx-check me-1"></i>Activar</a>
+                        @else
+                            <a class="dropdown-item" wire:click="desactivarJSp({{$jornada->id}})" style="cursor:pointer !important;"><i class="bx bx-x me-1"></i>Desactivar</a>
+                        @endif
                         <a class="dropdown-item" wire:click="editarJSp({{$jornada->id}})" style="cursor:pointer !important;"><i
                             class="bx bx-edit-alt me-1" ></i>
                         Editar</a>

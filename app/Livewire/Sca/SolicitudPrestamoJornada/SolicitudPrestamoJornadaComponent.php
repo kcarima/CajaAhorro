@@ -69,6 +69,45 @@ class SolicitudPrestamoJornadaComponent extends Component
         }
     }
 
+    public function countActive($id)
+    {        
+        return SolicitudPrestamoJornada::where('status', '=', '1')
+                                ->where('id', '!=', $id)
+                                ->count();
+    }
+
+    public function activarJSp($id){
+        $query = SolicitudPrestamoJornada::find($id);
+        if ($query) {
+            $activeRequestsCount = $this->countActive($id);            
+            if ($activeRequestsCount == 0) {
+                // Valida que no existan otras jornadas activas.
+                $query->status =  1;
+                $query->update();
+                session()->flash('success',  'Registro Activado correctamente');            
+            }else{
+                // Manejar si ya existe una jornada activa
+                session()->flash('error',  'Error: Ya existe una jornada Activa!');
+            }            
+        } else {
+            // Manejar el caso en el que no se encontró el registro
+            session()->flash('error',  'Error: Solicitud no encontrada!');
+        }
+    }
+
+    public function desactivarJSp($id){
+        $query = SolicitudPrestamoJornada::find($id);
+        if ($query) {
+            // Valida que no existan solicitudes de prestamos asociadas a la jornada a eliminar.
+            $query->status =  0;
+            $query->update();
+            session()->flash('success',  'Registro Desactivado correctamente');            
+        } else {
+            // Manejar el caso en el que no se encontró el registro
+            session()->flash('error',  'Error: Solicitud no encontrada!');
+        }
+    }
+
     #[On('msnJsp')]
     public function handleMsnJsp($mensaje)
     {

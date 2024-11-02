@@ -1,6 +1,6 @@
 <div class="card ">
 
-    <h5 class="card-header"><livewire:Sca.solicitud-prestamo.create-modal-component/> Criterio de Búsqueda </h5>
+    <h5 class="card-header"> Criterio de Búsqueda </h5>
     <div class="table-responsive text-nowrap overflow-auto">
         <table class="table table-responsive text-nowrap">
             <thead>
