@@ -11,11 +11,7 @@ class CriterioBusquedaComponent extends Component
 {
     public $fechaActual;
 
-    public $filtroBusqueda = [
-        'fecha_jornada_desde' => '',
-        'fecha_jornada_hasta' => '',
-        'tipo_prestamo' => '',
-        'moneda' => '',
+    public $filtroBusqueda = [        
         'estatus' => ''
     ];
 
@@ -24,8 +20,7 @@ class CriterioBusquedaComponent extends Component
 
     public function mount(){
         $this->fechaActual = date('Y-m-d');
-        $this->filtroBusqueda['fecha_jornada_desde']=$this->fechaActual;
-        $this->filtroBusqueda['fecha_jornada_hasta']=$this->fechaActual;
+        $this->filtroBusqueda['estatus']='';        
     }
 
     public function render(){

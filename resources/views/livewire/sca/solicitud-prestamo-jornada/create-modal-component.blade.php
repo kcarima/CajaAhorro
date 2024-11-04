@@ -9,7 +9,7 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content text-bg-dark" >
                     <div class="modal-header">
-                        <h3 class="text-xl text-center w-full font-bold text-gray-900">{{ $postId ? 'Editar' : 'Crear' }} Jornada Solicitud Prestamo ({{$postId}} - {{$postIdDet}})</h3>
+                        <h3 class="text-xl text-center w-full font-bold text-gray-900">{{ $postId ? 'Editar' : 'Crear' }} Jornada Solicitud Prestamo</h3>
                     </div>
                     <div class="modal-body" style="padding-top:0rem !important;padding-left: 1rem !important;padding-right: 1rem !important;">
                         <form wire:submit.prevent="store">
@@ -88,7 +88,8 @@
                                     <x-label for="observacion" value="Observación" />
                                     <textarea wire:model.live="observacion" class="left border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50 rounded-md shadow-sm dark:bg-gray-200 w-full" id="observacion" name="observacion"></textarea>
                                 </div>
-
+                                <br>
+                                <hr class="my-4  items-center " style="border: 1px solid #ccc;">                                
                                 <div class="flex justify-around items-center flex-col-reverse lg:flex-row mb-4 gap-2 mt-4">
                                     <button type="button"  wire:click="closeModal" class="rounded-md border border-solid border-red-500 text-red-500 hover:bg-red-500 hover:text-white lg:w-1/3 w-full h-10 text-lg">Cancelar</button>
                                     <button type="submit"  id="myButton"  class="rounded-md bg-blue-400 text-white hover:bg-blue-800 lg:w-1/3 w-full h-10 text-lg">{{ $postId ? 'Editar' : 'Crear' }}</button>

@@ -8,6 +8,7 @@ use App\Models\SCA\SolicitudPrestamo;
 use Livewire\Attributes\Reactive;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Livewire\Attributes\On;
 
 class SolicitudPrestamoComponent extends Component
 {
@@ -57,18 +58,39 @@ class SolicitudPrestamoComponent extends Component
         ->with('TipoPrestamo')
         ->with('Moneda')
         ->wherehas('socio', function($query){
-            if ($this->filtroBusqueda['socio'] != ''){
-                $query->where('ficha','ilike', '%'.$this->filtroBusqueda["socio"].'%')
-                      ->orWhere('cedula', 'ilike', '%' . $this->filtroBusqueda["socio"] . '%')
-                      ->orWhere('nombre', 'ilike', '%' . $this->filtroBusqueda["socio"] . '%');
-            }
+            
+                $query->where('id','=',auth()->user()->id);
+            
         })
-        ->orderBy('fecha_solicitud','DESC')->paginate(2);
-        return $query->paginate(2);
+        ->orderBy('fecha_solicitud','DESC')->paginate(15);
+        return $query->paginate(15);
     }
 
     public function editarSp($id){
         $this->dispatch('click-editarSp', id: $id);
+    }
+
+    #[On('msnSp')]
+    public function handleMsnJsp($mensaje)
+    {
+        // Aquí puedes utilizar los valores de $id y $nombre
+        $this->mensaje=$mensaje['mensaje'];
+
+        // Actualizar la vista
+        session()->flash('success',  $this->mensaje);
+        $this->render();
+    }
+
+    public function eliminarSp($id){
+        //$query = SolicitudPrestamoJornada::query()->where('id','=',$id)->with('JornadaDetalle')->get();
+        $query = SolicitudPrestamo::find($id);
+        if ($query) {
+            $query->delete();            
+            session()->flash('success',  'Registro eliminado correctamente');            
+        } else {
+            // Manejar el caso en el que no se encontró el registro
+            session()->flash('error',  'Error: Solicitud no encontrada!');
+        }
     }
 }
 

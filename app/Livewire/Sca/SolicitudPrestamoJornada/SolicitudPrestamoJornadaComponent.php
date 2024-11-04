@@ -17,6 +17,9 @@ class SolicitudPrestamoJornadaComponent extends Component
     use WithPagination;
     public $jornadas;
 
+    #[Reactive]
+    public $filtroBusqueda;
+
     public $mensaje;
 
     public function moun(){
@@ -36,6 +39,7 @@ class SolicitudPrestamoJornadaComponent extends Component
                  ->orderBy('fecha_cierre','DESC')->paginate(15);*/
 
         //$this->jornadas = SolicitudPrestamoJornada::orderBy('fecha_cierre', 'DESC')->get();
+        //$this->jornadas = $this->buscar();
 
         $this->jornadas = SolicitudPrestamoJornada::query()
                             ->wherehas('JornadaDetalle', function($query){
@@ -117,5 +121,23 @@ class SolicitudPrestamoJornadaComponent extends Component
         // Actualizar la vista
         session()->flash('success',  $this->mensaje);
         $this->render();
+    }
+
+    public function buscar()
+    {
+        $query = SolicitudPrestamoJornada::query();
+
+        
+        $query->wherehas('JornadaDetalle', function($query){
+                              $query->select('id', 'jornada_solicitud_prestamo_id', 'tipo_prestamo_id', 'moneda_id', 'monto_tope', 'cant_cuotas', 'status');
+                       })                  
+
+        ->when($this->filtroBusqueda['estatus'], function ($query) {
+            if ($this->filtroBusqueda['estatus'] != ''){
+                $query->where('status', $this->filtroBusqueda["estatus"]);
+            }
+        })
+        ->orderBy('fecha_cierre','DESC')->paginate(2);
+        return $query->paginate(2);
     }
 }
