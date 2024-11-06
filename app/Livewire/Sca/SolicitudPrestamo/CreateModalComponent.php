@@ -11,6 +11,7 @@ use Livewire\Component;
 use Livewire\Attributes\On;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 
 class CreateModalComponent extends Component
 {
@@ -18,7 +19,7 @@ class CreateModalComponent extends Component
 
     public $tiposPrestamos = "";
     public $monedas = "";
-    public $jornada;    
+    public $jornada;
 
     public $postId=0;
     public $fs_jornada_detalle_id;
@@ -28,12 +29,12 @@ class CreateModalComponent extends Component
     public $fs_fecha_solicitud;
     public $fs_socio_id;
     public $fs_monto_tope;
-    public $fs_monto=1;
+    public $monto_solicitud=1;
 
     public $fs_jornada_nombre;
     public $fs_moneda_nombre;
     public $fs_tp_nombre;
-    
+
     public function formSp(){
         $this->openModal();
     }
@@ -50,15 +51,15 @@ class CreateModalComponent extends Component
         $this->fs_cant_cuotas='';
         $this->fs_fecha_solicitud='';
         $this->fs_socio_id='';
-        $this->fs_monto=0;
+        $this->monto_solicitud=0;
         $this->fs_jornada_nombre = '';
         $this->fs_moneda_nombre = '';
 
         $this->isOpen=false;
-    }    
+    }
 
-    public function inicializaVariablesCreate($jornada){ 
-        //dd($jornada);       
+    public function inicializaVariablesCreate($jornada){
+        //dd($jornada);
         $this->fs_jornada_detalle_id=$jornada[0]->jornadaDetalle[0]->id;
         $this->fs_tipo_prestamo=$jornada[0]->jornadaDetalle[0]->TipoPrestamo->id;
         $this->fs_tp_nombre=$jornada[0]->jornadaDetalle[0]->TipoPrestamo->nombre;
@@ -67,13 +68,13 @@ class CreateModalComponent extends Component
         $this->fs_monto_tope=$jornada[0]->jornadaDetalle[0]->monto_tope;
         $this->fs_fecha_solicitud=Carbon::now()->format('Y-m-d');
         $this->fs_socio_id=auth()->user()->id;
-        $this->fs_monto=0;
+        $this->monto_solicitud=0;
 
         $this->fs_jornada_nombre = $jornada[0]->jornadaDetalle[0]->SolicitudPrestamoJornada->nombre;
         $this->fs_moneda_nombre = $jornada[0]->jornadaDetalle[0]->Moneda->abreviatura;
     }
 
-    public function render(){            
+    public function render(){
         $this->tiposPrestamos = TipoPrestamo::query()->orderBy('nombre')->get();
         $this->monedas = Moneda::query()->orderBy('abreviatura')->get();
         $this->jornada = SolicitudPrestamoJornada::Activo()
@@ -82,7 +83,7 @@ class CreateModalComponent extends Component
                                                    ->with('jornadaDetalle.Moneda')
                                                    ->get();
         if ($this->postId == 0){
-            $this->inicializaVariablesCreate($this->jornada);   
+            $this->inicializaVariablesCreate($this->jornada);
         }
         return view('livewire.sca.solicitud-prestamo.create-modal-component', ['tiposPrestamos' => $this->tiposPrestamos,
                                                                                'monedas' => $this->monedas,
@@ -92,7 +93,7 @@ class CreateModalComponent extends Component
 
     #[On('click-editarSp')]
     public function edit($id){
-        $this->postId = $id;        
+        $this->postId = $id;
         $query = SolicitudPrestamo::where('id','=',$id)
                                     ->with('jornadaDetalle.SolicitudPrestamoJornada')
                                     ->with('jornadaDetalle.TipoPrestamo')
@@ -104,32 +105,32 @@ class CreateModalComponent extends Component
         $this->fs_tp_nombre      = $query[0]->jornadaDetalle->TipoPrestamo->nombre;
 
         $this->fs_jornada_detalle_id = $query[0]->jornadaDetalle->id;
-        $this->fs_tipo_prestamo      = $query[0]->jornadaDetalle->TipoPrestamo->id;        
-        $this->fs_moneda_id          = $query[0]->jornadaDetalle->Moneda->id;        
-        $this->fs_cant_cuotas        = $query[0]->jornadaDetalle->cant_cuotas; 
+        $this->fs_tipo_prestamo      = $query[0]->jornadaDetalle->TipoPrestamo->id;
+        $this->fs_moneda_id          = $query[0]->jornadaDetalle->Moneda->id;
+        $this->fs_cant_cuotas        = $query[0]->jornadaDetalle->cant_cuotas;
         $this->fs_monto_tope         = $query[0]->jornadaDetalle->monto_tope;
         $this->fs_fecha_solicitud    = $query[0]->fecha_solicitud;
-        $this->fs_socio_id           = $query[0]->socio_id;        
-        $this->fs_monto              = $query[0]->monto;
+        $this->fs_socio_id           = $query[0]->socio_id;
+        $this->monto_solicitud              = $query[0]->monto;
         $this->openModal();
     }
 
     public function countActiveJornada()
-    {        
+    {
         return SolicitudPrestamoJornada::where('status', '=', '1')->count();
     }
 
-    public function store(Request $request){        
-        /*$this->validate([
-            'monto_solicitud' => ['required', 'integer', 'min:1'],
+    public function store(Request $request){
+        $this->validate([
+            'monto_solicitud' => ['required', 'regex:/^\d+(\.\d{1,2})?$/', 'min:1'],
         ], [
             'monto_solicitud.required' => 'Debe indicar Monto a solicitar y mayor que 0.',
-            'monto_solicitud.max' => 'El monto máximo permitido es '
-        ]);*/
+            'monto_solicitud.min' => 'El monto minimo permitido es 1'
+        ]);
 
-        /*if ( $this->fs_monto > $this->fs_monto_tope){
+        if ( $this->monto_solicitud > $this->fs_monto_tope){
             session()->flash('monto_solicitud', 'El monto maximo disponible a solicitar es de: '.$this->fs_monto_tope);
-        }else{*/
+        }else{
             if ( $this->postId == 0){
                 $now = Carbon::now();
                 $formattedDate = $now->format('Y-m-d');
@@ -139,18 +140,23 @@ class CreateModalComponent extends Component
                     'socio_id' => auth()->user()->id,
                     'tipo_prestamo_id' => $this->fs_tipo_prestamo,
                     'moneda_id' => $this->fs_moneda_id,
-                    'monto' => $this->fs_monto,
+                    'monto' => $this->monto_solicitud,
                     'cant_cuotas' => $this->fs_cant_cuotas,
-                    'status' => 0                
+                    'status' => 0
                 ]);
 
                 session()->flash('message', 'Solicitud creada exitosamente.');
                 $this->dispatch('msnSp', ['mensaje'=>'Solicitud creada exitosamente']);
             }else{
-                session()->flash('message', 'Solicitud Modificada exitosamente. id: '.$this->postId.', detalle: '. $this->postIdDet);
+                $query = SolicitudPrestamo::find($this->postId);
+
+                $query->monto = $this->monto_solicitud;
+                $query->update();
+
+                session()->flash('message', 'Solicitud Modificada exitosamente. id: ');
                 $this->dispatch('msnSp', ['mensaje'=>'Solicitud Modificada correctamente. id: '.$this->postId]);
             }
             $this->closeModal();
-        //}
+        }
     }
 }

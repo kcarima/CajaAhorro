@@ -30,9 +30,9 @@
                     <td class="text-center">
                         <select  wire:model.live="filtroBusqueda.estatus" style="font-size: 12 !important;width: 120px !important;">
                             <option value="">--Todos--</option>
-                            <option value="PENDIENTE">PENDIENTE</option>
-                            <option value="APROBADO">APROBADO</option>
-                            <option value="RECHAZADO">RECHAZADO</option>
+                            <option value="0">PENDIENTE</option>
+                            <option value="1">APROBADO</option>
+                            <option value="2">RECHAZADO</option>
                         </select>
                     </td>
                 </tr>
