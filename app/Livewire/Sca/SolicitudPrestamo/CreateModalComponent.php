@@ -82,7 +82,7 @@ class CreateModalComponent extends Component
                                                    ->with('jornadaDetalle.TipoPrestamo')
                                                    ->with('jornadaDetalle.Moneda')
                                                    ->get();
-        if ($this->postId == 0){
+        if ($this->postId == 0 and $this->countActiveJornada() > 0){
             $this->inicializaVariablesCreate($this->jornada);
         }
         return view('livewire.sca.solicitud-prestamo.create-modal-component', ['tiposPrestamos' => $this->tiposPrestamos,

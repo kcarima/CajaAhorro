@@ -56,6 +56,11 @@ return [
             'throw' => false,
         ],
 
+        'txt' => [
+            'driver' => 'local',
+            'root'   => storage_path('app/txt'),
+            'visibility' => 'private',
+        ],
     ],
 
     /*
