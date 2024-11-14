@@ -11,11 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('archivo_sinu_table', function (Blueprint $table) {
+        Schema::connection('sca')->create('archivo_sinu_table', function (Blueprint $table){
             $table->id();
-            $table->date(column: 'fecha');
+            $table->date('fecha');
             $table->text('descripcion');
-            $table->enum(column: 'status', allowed: ['0', '1'])->default('0')->comment('0: Cargado, 1:Procesado');
+            $table->enum('status', allowed: ['0', '1'])->default('0')->comment('0: Cargado, 1:Procesado');
             $table->timestamps();
         });
     }
