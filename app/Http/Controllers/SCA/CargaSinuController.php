@@ -10,8 +10,9 @@ class CargaSinuController extends Controller
 {
     public $path;
 
-    public function index(){
-        return view('file-upload');
+    public function index()
+    {
+        return view('sca.archivo-sinu.index');
     }
 
     public function store(Request $request){

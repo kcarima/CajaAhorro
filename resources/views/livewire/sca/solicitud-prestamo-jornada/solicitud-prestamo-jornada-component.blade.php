@@ -21,7 +21,7 @@
 
     <x-tabla titulo="Jornadas Solicitud Prestamo">
         <x-tabla.header :encabezados="['Inicio - Cierre','Descripción', 'Solicitudes','Aprobadas','Rechazadas','Estatus', 'Acciones']" />
-        @forelse ($jornadas as $jornada)        
+        @forelse ($jornadas as $jornada)
         <tr class="hover-row" onmouseover="cambiar_color_over(this)" onmouseout="cambiar_color_out(this)">
             <td class="text-center small">
                 [{{ Carbon::parse($jornada->fecha_inicio)->format('d/m/Y') }}] - [{{ Carbon::parse($jornada->fecha_cierre)->format('d/m/Y') }}]
@@ -65,7 +65,7 @@
                         Eliminar</a>
                     </div>
                 </div>
-            </td>            
+            </td>
         </tr>
         @empty
             <tr>

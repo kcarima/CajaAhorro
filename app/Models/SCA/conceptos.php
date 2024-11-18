@@ -9,10 +9,10 @@ class conceptos extends Model
 {
     use HasFactory;
 
-    protected $table = 'sca.archivo_sinu';
+    protected $table = 'sca.conceptos';
 
     protected $fillable = [
-        'concepto',
+        'codigo',
         'descripcion',
         'accion',
         'status'

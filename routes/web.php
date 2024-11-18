@@ -4,6 +4,8 @@ use App\Http\Controllers\SCA\SolicitudIngresoController;
 use App\Http\Controllers\SCA\SolicitudPrestamoJornadaController;
 use App\Http\Controllers\Seguridad\ResetPasswordController;
 use App\Http\Controllers\Seguridad\UsuariosController;
+use App\Http\Controllers\SCA\ConceptosController;
+
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -60,6 +62,7 @@ Route::controller(SolicitudPrestamoController::class)->group(function () {
     Route::post('solicitud/prestamo', 'create')->name('solicitud.prestamo.create');
     Route::post('solicitud/prestamo', 'store')->name('solicitud.prestamo.store');
 });
+
 
 Route::controller(SolicitudPrestamoJornadaController::class)->group(function () {
     Route::get('jornada/solicitud/prestamo', 'create')->name('jornada.solicitud.prestamo.create');

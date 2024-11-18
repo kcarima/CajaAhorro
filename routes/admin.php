@@ -14,6 +14,8 @@ use App\Http\Controllers\SCA\SolicitudPrestamoController;
 use App\Http\Controllers\SCA\SolicitudPrestamoJornadaController;
 use App\Http\Controllers\SCA\TipoPrestamoController;
 use App\Http\Controllers\SCA\TiposCuentasBancariasController;
+use App\Http\Controllers\SCA\ConceptosController;
+use App\Http\Controllers\SCA\CargaSinuController;
 use App\Http\Controllers\Seguridad\BotsController;
 use App\Http\Controllers\Seguridad\LogController;
 use App\Http\Controllers\Seguridad\UsuariosController;
@@ -139,6 +141,14 @@ Route::controller(SolicitudPrestamoController::class)->group(function () {
 
 Route::controller(SolicitudPrestamoJornadaController::class)->group(function () {
     Route::get('jornada/solicitud/prestamo', 'index')->name('solicitud.prestamo.jornada.index');
+});
+
+Route::controller(ConceptosController::class)->group(function () {
+    Route::get('conceptos/', 'index')->name('conceptos.index');
+});
+
+Route::controller(CargaSinuController::class)->group(function () {
+    Route::get('archivos-sinu/', 'index')->name('archivos-sinu.index');
 });
 
 

@@ -11,7 +11,7 @@ class archivoSinu extends Model
 {
     use HasFactory;
 
-    protected $table = 'sca.archivo_sinu';
+    protected $table = 'sca.archivo_sinu_table';
 
     protected $fillable = [
         'fecha',

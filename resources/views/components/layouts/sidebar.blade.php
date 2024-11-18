@@ -80,6 +80,16 @@
 
                 <ul class="menu-sub">
                     <li class="menu-item">
+                        <a href="{{ route('conceptos.index') }}" class="menu-link">
+                            <div data-i18n="Without navbar">Conceptos Nomina</div>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a href="{{ route('archivos-sinu.index') }}" class="menu-link">
+                            <div data-i18n="Without navbar">Archivo SINU</div>
+                        </a>
+                    </li>
+                    <li class="menu-item">
                         <a href="{{ route('solicitud.prestamo.jornada.index') }}" class="menu-link">
                             <div data-i18n="Without navbar">Jornada Solicitud Prestamo</div>
                         </a>

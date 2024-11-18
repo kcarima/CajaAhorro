@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::connection(name: 'sca')->create(table: 'conceptos', callback: function (Blueprint $table) {
             $table->id();
-            $table->string('concepto');
+            $table->string('codigo');
             $table->string('descripcion');
             $table->enum(column: 'accion', allowed: ['+', '-', '/','*'])->default('+');
             $table->enum(column: 'status', allowed: ['0', '1'])->default('0')->comment('0: Inactivo, 1:Activo');
