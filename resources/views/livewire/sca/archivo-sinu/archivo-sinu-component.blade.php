@@ -20,15 +20,15 @@
     <x-tabla titulo="Archivos SINU">
         <x-tabla.header :encabezados="['Fecha', 'Descripción', 'Monto', 'Estatus', 'Acciones']" />
         @forelse ($archivos as $archivo)
-            <tr>
+            <tr onmouseover="cambiar_color_over(this)" onmouseout="cambiar_color_out(this)">
                 <td class="text-center small">{{$archivo->fecha}}</td>
                 <td class="text-left small">{{$archivo->descripcion}}</td> 
                 <td class="text-right td-codigo" style="font-size: 10 !important;">{{ number_format($archivo->monto, 2, ",", ".") }}</td>
                 <td class="text-center small">
                     @if( $archivo->status == 0)
-                        <p class="text-warning">Cargado</p>
+                        <button type="button" class="btn btn-sm btn-orange">CARGADO</button>
                     @else
-                        <p class="text-success">Procesado</p>
+                        <button type="button" class="btn btn-sm btn-success">PROCESADO</button>                        
                     @endif
                 </td>
                 <td class="text-center small">
@@ -37,7 +37,13 @@
                             <i class="bx bx-dots-vertical-rounded"></i>
                         </button>
                         <div class="dropdown-menu">
-                            <a class="dropdown-item" style="cursor:pointer !important;"><i class="bx bx-search-alt me-1"></i>Detalle</a>                            
+                            <a class="dropdown-item" style="cursor:pointer !important;"><i class="bx bx-search-alt me-1"></i>Detalle</a>
+                            @if( $archivo->status == 0)
+                                <a class="dropdown-item" wire:click="eliminar({{$archivo->id}})" style="cursor:pointer !important;">
+                                    <i class="bx bx-trash me-1" ></i>
+                                    Eliminar
+                                </a>
+                            @endif
                         </div>
                     </div>
                 </td>

@@ -6,9 +6,11 @@ use App\Models\SCA\archivo_sinu_detalle;
 use Livewire\Attributes\On;
 
 use Livewire\Component;
+use Illuminate\Support\Facades\Storage;
 
 class ArchivoSinuComponent extends Component
-{
+{   
+
     public $filtroBusqueda = [
         'descripcion' => '',
         'estatus' => ''
@@ -49,5 +51,12 @@ class ArchivoSinuComponent extends Component
     public function msnArchivo($msn){
         session()->flash('success',  $msn['mensaje']);
         //$this->dispatch('$refresh');
+    }
+
+    public function eliminar($id){
+        Storage::disk('txt')->delete($id.'.txt');
+        $query = archivoSinu::find($id);
+        $query->delete();
+        session()->flash('success',  'Registro eliminado correctamente');
     }
 }
