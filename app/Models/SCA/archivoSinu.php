@@ -16,6 +16,7 @@ class archivoSinu extends Model
     protected $fillable = [
         'fecha',
         'descripcion',
+        'monto',
         'status'
     ];
 

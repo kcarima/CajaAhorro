@@ -50,7 +50,11 @@
                                 <div class="flex justify-around items-center flex-col-reverse lg:flex-row mb-4 gap-2 mt-4">
                                     <button type="button"  wire:click="closeModal" class="rounded-md border border-solid border-red-500 text-red-500 hover:bg-red-500 hover:text-white lg:w-1/3 w-full h-10 text-lg">Cancelar</button>
                                     <button type="submit"  id="myButton"  class="rounded-md bg-blue-400 text-white hover:bg-blue-800 lg:w-1/3 w-full h-10 text-lg">{{ $archivo_id ? 'Editar' : 'Crear' }}</button>
-                                </div>
+                                    <div wire:loading>
+                                        <br>
+                                        <i class="fa fa-spinner fa-spin"></i> Cargando...
+                                    </div>
+                                </div>                                
                         </form>
                     </div>
                 </div>

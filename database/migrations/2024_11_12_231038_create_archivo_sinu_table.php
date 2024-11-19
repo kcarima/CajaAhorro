@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->date('fecha');
             $table->text('descripcion');
+            $table->decimal(column: 'monto', total: 16, places: 2)->default(value: 0.00);
             $table->enum('status', allowed: ['0', '1'])->default('0')->comment('0: Cargado, 1:Procesado');
             $table->timestamps();
         });

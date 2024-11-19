@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Livewire\Sca\ArchivoSinu;
-use App\Models\SCA\ArchivoSinu;
+use App\Models\SCA\archivoSinu;
 use App\Models\SCA\Socio;
 use App\Models\SCA\conceptos;
 
@@ -22,6 +22,8 @@ class StoreComponent extends Component
     public $descripcion = '';
     public $file;
 
+    public $isLoading = false;
+
 
     public function render()
     {
@@ -40,6 +42,7 @@ class StoreComponent extends Component
     }
 
     public function store(Request $request){
+        $this->isLoading = true;
         $this->validate([
             'fecha' => 'required|date',
             'descripcion' => ['required'],
@@ -52,25 +55,23 @@ class StoreComponent extends Component
             //'file.mimes' => 'El archivo debe ser un .txt',
             //'file.max' => 'El tamaño máximo del Archivo debe ser de 2MB.',
         ]);
-
-        session()->flash('message',  'Subiendo Archivo...');
         
         $query = ArchivoSinu::create([
             'fecha' => $this->fecha,
-            'descripcion' => $this->descripcion,
+            'descripcion' => $this->descripcion,            
             'status' => 0
-        ]);
+        ]); 
+        
         $this->file->storeAs('txt', $query->id.'.txt');
-        session()->flash('message',  'Cargando Archivo...');
+        session()->flash('message',  '');        
 
         $contents = Storage::disk('txt')->get($query->id.'.txt');
         $lineas = explode("\n",trim($contents));
-        $contador_nosocios = 0;
-        $contador_noconcep = 0;
+        $monto = 0;
         foreach( $lineas as $linea ){
             $detalle_linea = explode(";",$linea);
-            // Buscar el socio por su ficha
-            $socio = Socio::where('ficha', $detalle_linea[1])->first();
+            /*// Buscar el socio por su ficha
+            //$socio = Socio::where('ficha', $detalle_linea[1])->first();
             // Verificar si se encontró al socio
             if (!$socio) {                
                 $contador_nosocios++;
@@ -80,8 +81,16 @@ class StoreComponent extends Component
             $concepto = conceptos::where('codigo', $detalle_linea[4])->first();
             if (!$concepto) {
                 $contador_noconcep++;
-            }
+            }*/
+            $monto += str_replace(",", ".", $detalle_linea[6]);
         }
-        dd("Cant NoSocios: $contador_nosocios, Cant. NoConceptos:  $contador_noconcep.");
+
+        $query->monto = $monto;
+        $query->update();
+
+        $this->isLoading = false;        
+
+        $this->dispatch('msnArchivo', ['mensaje'=>'Archivo Creado correctamente.']);        
+        $this->closeModal();
     }
 }

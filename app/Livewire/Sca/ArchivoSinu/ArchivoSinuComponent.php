@@ -3,6 +3,7 @@
 namespace App\Livewire\Sca\ArchivoSinu;
 use App\Models\SCA\archivoSinu;
 use App\Models\SCA\archivo_sinu_detalle;
+use Livewire\Attributes\On;
 
 use Livewire\Component;
 
@@ -39,7 +40,14 @@ class ArchivoSinuComponent extends Component
             }
         })
 
-        ->orderBy('fecha','desc')->paginate(15);
+        ->orderBy('fecha','desc')
+        ->orderBy('created_at', 'desc')->paginate(15);
         return $query->paginate(15);
+    }
+
+    #[On('msnArchivo')]
+    public function msnArchivo($msn){
+        session()->flash('success',  $msn['mensaje']);
+        //$this->dispatch('$refresh');
     }
 }
