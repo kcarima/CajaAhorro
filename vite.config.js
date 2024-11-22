@@ -13,7 +13,8 @@ export default defineConfig({
                 'resources/js/modules/seguridad/usuarios/editar.js',
                 'resources/js/modules/sca/configuraciones/configuraciones.js',
                 'resources/js/modules/uneg/uneg.js',
-                'resources/js/modules/seguridad/usuarios/editar-user.js'
+                'resources/js/modules/seguridad/usuarios/editar-user.js',
+                'resources/assets/vendor/libs/jquery/jquery-3.6.0.min.js'
             ],
             refresh: [
                 ...refreshPaths,

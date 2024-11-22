@@ -148,7 +148,7 @@ Route::controller(ConceptosController::class)->group(function () {
 });
 
 Route::controller(CargaSinuController::class)->group(function () {
-    Route::get('archivos-sinu/', 'index')->name('archivos-sinu.index');
+    Route::get('archivos-sinu/', 'index')->name('archivos-sinu.index');    
 });
 
 

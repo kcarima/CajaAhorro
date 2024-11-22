@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\SCA\SolicitudIngresoController;
 use App\Http\Controllers\SCA\SolicitudPrestamoJornadaController;
+use App\Http\Controllers\SCA\CargaSinuController;
 use App\Http\Controllers\Seguridad\ResetPasswordController;
 use App\Http\Controllers\Seguridad\UsuariosController;
 use App\Http\Controllers\SCA\ConceptosController;
@@ -75,4 +76,9 @@ Route::get('wololo', function () {
     $pdf = Pdf::loadView('planillas.beneficiarios');
     return $pdf->download('invoice.pdf');
     return view('planillas.beneficiarios');
+});
+
+Route::controller(CargaSinuController::class)->group(function () {
+    Route::get('/archivo-sinu/detalle/{id}', 'detalle')->name('archivo-sinu.detalle');
+    Route::Post('/archivo-sinu/analisis', 'analisis')->name('archivo-sinu.analisis');
 });

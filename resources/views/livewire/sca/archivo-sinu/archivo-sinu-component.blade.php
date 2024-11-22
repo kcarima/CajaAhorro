@@ -26,7 +26,7 @@
                 <td class="text-right td-codigo" style="font-size: 10 !important;">{{ number_format($archivo->monto, 2, ",", ".") }}</td>
                 <td class="text-center small">
                     @if( $archivo->status == 0)
-                        <button type="button" class="btn btn-sm btn-orange">CARGADO</button>
+                        <button type="button" class="btn btn-sm btn-orange" style="background-color: orange !important;">CARGADO</button>
                     @else
                         <button type="button" class="btn btn-sm btn-success">PROCESADO</button>                        
                     @endif
@@ -37,7 +37,7 @@
                             <i class="bx bx-dots-vertical-rounded"></i>
                         </button>
                         <div class="dropdown-menu">
-                            <a class="dropdown-item" style="cursor:pointer !important;"><i class="bx bx-search-alt me-1"></i>Detalle</a>
+                            <a class="dropdown-item" href="{{ route('archivo-sinu.detalle', $archivo->id) }}" style="cursor:pointer !important;"><i class="bx bx-search-alt me-1"></i>Detalle</a>
                             @if( $archivo->status == 0)
                                 <a class="dropdown-item" wire:click="eliminar({{$archivo->id}})" style="cursor:pointer !important;">
                                     <i class="bx bx-trash me-1" ></i>
