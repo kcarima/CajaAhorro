@@ -42,34 +42,51 @@
                 <button type="button" onclick="history.back();"
                     class="rounded-md border border-solid border-red-500 text-red-500 hover:bg-red-500 hover:text-white lg:w-1/3 w-full h-10 text-lg">Regresar</button>
                 <button type="button"
-                    class="rounded-md bg-blue-400 text-white hover:bg-blue-800 lg:w-1/3 w-full h-10 text-lg" id="analizar">Analizar</button>
-                <button type="submit"
-                    class="rounded-md btn-success text-white hover:bg-green-800 lg:w-1/3 w-full h-10 text-lg">Procesar</button>
+                    class="rounded-md bg-blue-400 text-white hover:bg-blue-800 lg:w-1/3 w-full h-10 text-lg" id="analizar">Analizar</button>                
             </footer>
         </form>
         <br />
+        <div id="loading-indicator" class="d-flex justify-content-center d-none">
+            <i class="bx bx-loader me-1" ></i>
+            Analizando...
+        </div>
         <div id="resp_analisis"></div>
-        
+        <br /><br />
     </div>    
     <script>
-        const form = document.getElementById('analitic');
+        const divResultado = document.getElementById("resp_analisis");
+        const hiddenElement = document.getElementById('loading-indicator');
 
-        form.addEventListener('submit', (event) => {
-            event.preventDefault();
-
-            const formData = new FormData(form);
-
+        document.getElementById("analizar").addEventListener("click", function() {
+            divResultado.textContent = '';
+            hiddenElement.classList.toggle('d-none');
+            document.getElementById("analizar").disabled = true;
+            document.getElementById('loading-indicator').style.display = 'block';
             fetch('{{ route("archivo-sinu.analisis") }}', {
-                method: 'POST',
-                body: formData
-            })
-            .then(response => response.json())
-            .then(data => {
-                console.log(data); // Manejar la respuesta del servidor
-            })
-            .catch(error => {
+                method: 'post',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                body: JSON.stringify({
+                    // Your data here
+                    id: '{{$query->id}}',
+                })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById("analizar").disabled = false;
+                    hiddenElement.classList.toggle('d-none');
+                    console.log(data); // Handle the response
+                    divResultado.innerHTML = `${data.mensaje}`;
+                })
+                .catch(error => {
                 console.error('Error:', error);
-            });
+                });
+        });
+
+        document.getElementById("procesar").addEventListener("click", function() {
+            alert('toca procesar');
         });
     </script>
 </x-app-layout>
